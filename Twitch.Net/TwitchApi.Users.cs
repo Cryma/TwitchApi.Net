@@ -11,21 +11,14 @@ namespace Twitch.Net
 
         private const string _getUsersEndpoint = "https://api.twitch.tv/helix/users";
 
-        public async Task<TwitchUser[]> GetUsers(string[] ids)
+        public async Task<TwitchResponse<TwitchUser>> GetUsers(string[] ids)
         {
             using var httpClient = new TwitchHttpClient();
 
             var url = $"{_getUsersEndpoint}?{GetQueryForParameters("id", ids)}";
             var responseStream = await httpClient.GetAsync(url, _clientId);
 
-            var deserializedObject = await JsonSerializer.DeserializeAsync<TwitchResponse<TwitchUser>>(responseStream);
-
-            return deserializedObject.Data;
-        }
-
-        public async Task<TwitchUser> GetUser(string id)
-        {
-            return (await GetUsers(new[] { id })).FirstOrDefault();
+            return await JsonSerializer.DeserializeAsync<TwitchResponse<TwitchUser>>(responseStream);
         }
 
     }

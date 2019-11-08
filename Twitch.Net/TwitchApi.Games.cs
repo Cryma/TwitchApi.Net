@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Twitch.Net.Models;
@@ -13,7 +12,7 @@ namespace Twitch.Net
         private const string _getTopGamesEndpoint = "https://api.twitch.tv/helix/games/top";
         private const string _getGamesEndpoint = "https://api.twitch.tv/helix/games";
 
-        public async Task<(string, TwitchGame[])> GetTopGames(int first = 20, string after = null, string before = null)
+        public async Task<TwitchPaginatedResponse<TwitchGame>> GetTopGames(int first = 20, string after = null, string before = null)
         {
             using var httpClient = new TwitchHttpClient();
 
@@ -31,26 +30,17 @@ namespace Twitch.Net
 
             var responseStream = await httpClient.GetAsync(url, _clientId);
 
-            var deserializedObject = await JsonSerializer.DeserializeAsync<TwitchPaginatedResponse<TwitchGame>>(responseStream);
-
-            return (deserializedObject.Pagination.Cursor, deserializedObject.Data);
+            return await JsonSerializer.DeserializeAsync<TwitchPaginatedResponse<TwitchGame>>(responseStream);
         }
 
-        public async Task<TwitchGame[]> GetGames(string[] ids)
+        public async Task<TwitchResponse<TwitchGame>> GetGames(string[] ids)
         {
             using var httpClient = new TwitchHttpClient();
 
             var url = $"{_getGamesEndpoint}?{GetQueryForParameters("id", ids)}";
             var responseStream = await httpClient.GetAsync(url, _clientId);
 
-            var deserializedObject = await JsonSerializer.DeserializeAsync<TwitchResponse<TwitchGame>>(responseStream);
-
-            return deserializedObject.Data;
-        }
-
-        public async Task<TwitchGame> GetGame(string id)
-        {
-            return (await GetGames(new[] {id})).FirstOrDefault();
+            return await JsonSerializer.DeserializeAsync<TwitchResponse<TwitchGame>>(responseStream);
         }
 
     }
