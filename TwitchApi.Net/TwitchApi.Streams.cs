@@ -13,7 +13,7 @@ namespace TwitchApi.Net
 
         public async Task<TwitchPaginatedResponse<TwitchStream>> GetStreams(string[] gameIds, int first = 20, string after = null, string before = null)
         {
-            using var httpClient = new TwitchHttpClient();
+            using var httpClient = GetHttpClient();
 
             var url = $"{_getStreamsEndpoint}?first={first}&{GetQueryForParameters("game_id", gameIds)}";
 
@@ -34,7 +34,7 @@ namespace TwitchApi.Net
 
         public async Task<TwitchPaginatedResponse<TwitchStream>> GetStreams(string[] userIds, string after = null, string before = null, int first = 20)
         {
-            using var httpClient = new TwitchHttpClient();
+            using var httpClient = GetHttpClient();
 
             var url = $"{_getStreamsEndpoint}?first={first}&{GetQueryForParameters("user_id", userIds)}";
 
