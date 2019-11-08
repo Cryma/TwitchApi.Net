@@ -28,6 +28,11 @@ namespace TwitchApi.Net.Utility
                 request.Headers.Add("Client-ID", clientId);
             }
 
+            if (_ratelimitBypass != null)
+            {
+                await _ratelimitBypass.Wait();
+            }
+
             var response = await _httpClient.SendAsync(request);
             if (response.IsSuccessStatusCode)
             {
@@ -48,6 +53,9 @@ namespace TwitchApi.Net.Utility
 
                 case HttpStatusCode.InternalServerError:
                     throw new TwitchInternalServerErrorException("500 Internal Server Error!");
+
+                case (HttpStatusCode) 429:
+                    throw new TwitchTooManyRequestsException("Too many requests - make sure not to exceed the rate-limit!");
 
                 default:
                     throw new HttpRequestException();
