@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Twitch.Net.Models;
@@ -14,34 +13,24 @@ namespace Twitch.Net
 
         public async Task<TwitchUser> GetUser(string id)
         {
-            using var httpClient = GetPreparedHttpClient();
+            using var httpClient = new TwitchHttpClient();
 
             var url = $"{_getUsersEndpoint}?{GetQueryForParameters("id", new[] {id})}";
-            var response = await httpClient.GetAsync(url);
+            var responseStream = await httpClient.GetAsync(url, _clientId);
 
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                return null;
-            }
-
-            var deserializedObject =  await JsonSerializer.DeserializeAsync<TwitchResponse<TwitchUser>>(await response.Content.ReadAsStreamAsync());
+            var deserializedObject =  await JsonSerializer.DeserializeAsync<TwitchResponse<TwitchUser>>(responseStream);
 
             return deserializedObject.Data.FirstOrDefault();
         }
 
         public async Task<TwitchUser[]> GetUsers(string[] ids)
         {
-            using var httpClient = GetPreparedHttpClient();
+            using var httpClient = new TwitchHttpClient();
 
             var url = $"{_getUsersEndpoint}?{GetQueryForParameters("id", ids)}";
-            var response = await httpClient.GetAsync(url);
+            var responseStream = await httpClient.GetAsync(url, _clientId);
 
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                return null;
-            }
-
-            var deserializedObject = await JsonSerializer.DeserializeAsync<TwitchResponse<TwitchUser>>(await response.Content.ReadAsStreamAsync());
+            var deserializedObject = await JsonSerializer.DeserializeAsync<TwitchResponse<TwitchUser>>(responseStream);
 
             return deserializedObject.Data;
         }

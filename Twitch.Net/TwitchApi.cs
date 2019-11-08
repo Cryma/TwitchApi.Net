@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 
 namespace Twitch.Net
 {
@@ -13,17 +12,6 @@ namespace Twitch.Net
         public TwitchApi(string clientId)
         {
             _clientId = clientId;
-        }
-
-        private HttpClient GetPreparedHttpClient()
-        {
-            return new HttpClient
-            {
-                DefaultRequestHeaders =
-                {
-                    { "Client-ID", _clientId }
-                }
-            };
         }
 
         private string GetQueryForParameters(string parameterName, IEnumerable<string> parameters)
