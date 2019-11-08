@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Twitch.Net
+namespace TwitchApi.Net
 {
     public partial class TwitchApi
     {

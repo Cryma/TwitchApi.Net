@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Twitch.Net.Exceptions
+namespace TwitchApi.Net.Exceptions
 {
     public class TwitchInternalServerErrorException : Exception
     {

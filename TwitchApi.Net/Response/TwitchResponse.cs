@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Twitch.Net.Response
+namespace TwitchApi.Net.Response
 {
     public class TwitchResponse<TResponseObject>
     {

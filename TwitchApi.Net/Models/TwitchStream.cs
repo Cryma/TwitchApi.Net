@@ -1,7 +1,6 @@
-﻿using System;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace Twitch.Net.Models
+namespace TwitchApi.Net.Models
 {
     public class TwitchStream
     {

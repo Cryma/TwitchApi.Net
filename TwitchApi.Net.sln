@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29318.209
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twitch.Net", "Twitch.Net\Twitch.Net.csproj", "{1D668C7C-7FCC-409A-8B30-748F84F24FCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchApi.Net", "TwitchApi.Net\TwitchApi.Net.csproj", "{1D668C7C-7FCC-409A-8B30-748F84F24FCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

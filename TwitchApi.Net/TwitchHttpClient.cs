@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Twitch.Net.Exceptions;
+using TwitchApi.Net.Exceptions;
 
-namespace Twitch.Net
+namespace TwitchApi.Net
 {
     public class TwitchHttpClient : IDisposable
     {

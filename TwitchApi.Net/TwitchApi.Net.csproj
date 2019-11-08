@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>8</LangVersion>
+    <Authors>Cryma</Authors>
+    <PackageLicenseFile></PackageLicenseFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>2019 - Cryma</Copyright>
+    <RepositoryUrl>https://github.com/Cryma/TwitchApi.Net</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Cryma/TwitchApi.Net</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>twitch api csharp</PackageTags>
+    <Description>C# Wrapper for the Twitch Helix API</Description>
+    <PackageId>TwitchApi.Net</PackageId>
+    <Product>TwitchApi.Net</Product>
+    <AssemblyName>TwitchApi.Net</AssemblyName>
+    <RootNamespace>TwitchApi.Net</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="4.6.0" />
+  </ItemGroup>
+
+</Project>
