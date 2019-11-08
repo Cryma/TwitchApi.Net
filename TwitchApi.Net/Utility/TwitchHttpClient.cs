@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using TwitchApi.Net.Exceptions;
 
-namespace TwitchApi.Net
+namespace TwitchApi.Net.Utility
 {
     public class TwitchHttpClient : IDisposable
     {

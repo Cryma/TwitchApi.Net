@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using TwitchApi.Net.Models;
 using TwitchApi.Net.Response;
+using TwitchApi.Net.Utility;
 
 namespace TwitchApi.Net
 {
