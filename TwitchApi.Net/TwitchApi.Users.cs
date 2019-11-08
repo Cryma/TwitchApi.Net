@@ -13,7 +13,7 @@ namespace TwitchApi.Net
 
         public async Task<TwitchResponse<TwitchUser>> GetUsers(string[] ids)
         {
-            using var httpClient = new TwitchHttpClient();
+            using var httpClient = GetHttpClient();
 
             var url = $"{_getUsersEndpoint}?{GetQueryForParameters("id", ids)}";
             var responseStream = await httpClient.GetAsync(url, _clientId);

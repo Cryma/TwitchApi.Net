@@ -12,6 +12,13 @@ namespace TwitchApi.Net.Utility
 
         private readonly HttpClient _httpClient = new HttpClient();
 
+        private readonly RatelimitBypass _ratelimitBypass;
+
+        public TwitchHttpClient(RatelimitBypass ratelimitBypass)
+        {
+            _ratelimitBypass = ratelimitBypass;
+        }
+
         public async Task<Stream> GetAsync(string url, string clientId = null)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url);

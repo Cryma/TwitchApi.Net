@@ -14,7 +14,7 @@ namespace TwitchApi.Net
 
         public async Task<TwitchPaginatedResponse<TwitchGame>> GetTopGames(int first = 20, string after = null, string before = null)
         {
-            using var httpClient = new TwitchHttpClient();
+            using var httpClient = GetHttpClient();
 
             var url = $"{_getTopGamesEndpoint}?first={first}";
 
@@ -35,7 +35,7 @@ namespace TwitchApi.Net
 
         public async Task<TwitchResponse<TwitchGame>> GetGames(string[] ids)
         {
-            using var httpClient = new TwitchHttpClient();
+            using var httpClient = GetHttpClient();
 
             var url = $"{_getGamesEndpoint}?{GetQueryForParameters("id", ids)}";
             var responseStream = await httpClient.GetAsync(url, _clientId);
