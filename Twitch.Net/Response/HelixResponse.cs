@@ -2,9 +2,9 @@
 
 namespace Twitch.Net.Response
 {
-    public class TwitchResponse<TResponseObject>
+    public class HelixResponse<TResponseObject>
     {
-        
+
         [JsonPropertyName("data")]
         public TResponseObject[] Data { get; set; }
 

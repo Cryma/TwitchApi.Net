@@ -2,7 +2,7 @@
 
 namespace Twitch.Net.Models
 {
-    public class TwitchClip
+    public class HelixClip
     {
 
         [JsonPropertyName("id")]

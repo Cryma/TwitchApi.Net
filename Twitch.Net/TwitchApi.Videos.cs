@@ -12,7 +12,7 @@ namespace Twitch.Net
 
         public const string _getVideosEndpoint = "https://api.twitch.tv/helix/videos";
 
-        public async Task<TwitchResponse<TwitchVideo>> GetVideos(string[] videoIds)
+        public async Task<HelixResponse<HelixVideo>> GetVideos(string[] videoIds)
         {
             using var httpClient = GetHttpClient();
 
@@ -21,10 +21,10 @@ namespace Twitch.Net
 
             var responseStream = await httpClient.GetAsync(_getVideosEndpoint, parameters, _clientId);
 
-            return await JsonSerializer.DeserializeAsync<TwitchResponse<TwitchVideo>>(responseStream);
+            return await JsonSerializer.DeserializeAsync<HelixResponse<HelixVideo>>(responseStream);
         }
 
-        public async Task<TwitchPaginatedResponse<TwitchVideo>> GetVideosFromGame(string gameId, int first = 20, string after = null, string before = null,
+        public async Task<HelixPaginatedResponse<HelixVideo>> GetVideosFromGame(string gameId, int first = 20, string after = null, string before = null,
             string language = null, string period = null, string sort = null, string type = null)
         {
             using var httpClient = GetHttpClient();
@@ -67,10 +67,10 @@ namespace Twitch.Net
 
             var responseStream = await httpClient.GetAsync(_getVideosEndpoint, parameters, _clientId);
 
-            return await JsonSerializer.DeserializeAsync<TwitchPaginatedResponse<TwitchVideo>>(responseStream);
+            return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixVideo>>(responseStream);
         }
 
-        public async Task<TwitchPaginatedResponse<TwitchVideo>> GetVideosFromUser(string userId, int first = 20, string after = null, string before = null,
+        public async Task<HelixPaginatedResponse<HelixVideo>> GetVideosFromUser(string userId, int first = 20, string after = null, string before = null,
             string language = null, string period = null, string sort = null, string type = null)
         {
             using var httpClient = GetHttpClient();
@@ -113,7 +113,7 @@ namespace Twitch.Net
 
             var responseStream = await httpClient.GetAsync(_getVideosEndpoint, parameters, _clientId);
 
-            return await JsonSerializer.DeserializeAsync<TwitchPaginatedResponse<TwitchVideo>>(responseStream);
+            return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixVideo>>(responseStream);
         }
 
     }

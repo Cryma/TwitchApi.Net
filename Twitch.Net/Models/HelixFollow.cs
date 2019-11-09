@@ -2,7 +2,7 @@
 
 namespace Twitch.Net.Models
 {
-    public class TwitchFollow
+    public class HelixFollow
     {
 
         [JsonPropertyName("from_id")]

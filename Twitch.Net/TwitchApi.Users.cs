@@ -13,7 +13,7 @@ namespace Twitch.Net
         private const string _getUsersEndpoint = "https://api.twitch.tv/helix/users";
         private const string _getUsersFollowsEndpoint = "https://api.twitch.tv/helix/users/follows";
 
-        public async Task<TwitchResponse<TwitchUser>> GetUsers(string[] userIds)
+        public async Task<HelixResponse<HelixUser>> GetUsers(string[] userIds)
         {
             using var httpClient = GetHttpClient();
 
@@ -22,10 +22,10 @@ namespace Twitch.Net
 
             var responseStream = await httpClient.GetAsync(_getUsersEndpoint, parameters, _clientId);
 
-            return await JsonSerializer.DeserializeAsync<TwitchResponse<TwitchUser>>(responseStream);
+            return await JsonSerializer.DeserializeAsync<HelixResponse<HelixUser>>(responseStream);
         }
 
-        public async Task<TwitchPaginatedResponseWithTotal<TwitchFollow>> GetUsersFollows(int first = 20, string after = null, string toId = null, string fromId = null)
+        public async Task<HelixPaginatedResponseWithTotal<HelixFollow>> GetUsersFollows(int first = 20, string after = null, string toId = null, string fromId = null)
         {
             using var httpClient = GetHttpClient();
 
@@ -51,7 +51,7 @@ namespace Twitch.Net
 
             var responseStream = await httpClient.GetAsync(_getUsersFollowsEndpoint, parameters, _clientId);
 
-            return await JsonSerializer.DeserializeAsync<TwitchPaginatedResponseWithTotal<TwitchFollow>>(responseStream);
+            return await JsonSerializer.DeserializeAsync<HelixPaginatedResponseWithTotal<HelixFollow>>(responseStream);
         }
 
     }
