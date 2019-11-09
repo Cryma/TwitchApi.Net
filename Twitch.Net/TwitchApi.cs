@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Twitch.Net.Utility;
+﻿using Twitch.Net.Utility;
 
 namespace Twitch.Net
 {
@@ -15,11 +13,6 @@ namespace Twitch.Net
         {
             _clientId = clientId;
             _ratelimitBypass = ratelimitBypass;
-        }
-
-        private string GetQueryForParameters(string parameterName, IEnumerable<string> parameters)
-        {
-            return string.Join("&", parameters.Select(x => $"{parameterName}={x}"));
         }
 
         private TwitchHttpClient GetHttpClient()
