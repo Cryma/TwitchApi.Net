@@ -12,7 +12,7 @@ namespace Twitch.Net
 
         private const string _getClipsEndpoint = "https://api.twitch.tv/helix/clips";
 
-        public async Task<TwitchResponse<TwitchClip>> GetClips(string[] clipIds)
+        public async Task<HelixResponse<HelixClip>> GetClips(string[] clipIds)
         {
             using var httpClient = GetHttpClient();
 
@@ -21,10 +21,10 @@ namespace Twitch.Net
 
             var responseStream = await httpClient.GetAsync(_getClipsEndpoint, parameters, _clientId);
 
-            return await JsonSerializer.DeserializeAsync<TwitchResponse<TwitchClip>>(responseStream);
+            return await JsonSerializer.DeserializeAsync<HelixResponse<HelixClip>>(responseStream);
         }
 
-        public async Task<TwitchPaginatedResponse<TwitchClip>> GetClipsFromGames(string gameId, int first = 20, string after = null, string before = null)
+        public async Task<HelixPaginatedResponse<HelixClip>> GetClipsFromGames(string gameId, int first = 20, string after = null, string before = null)
         {
             using var httpClient = GetHttpClient();
 
@@ -46,10 +46,10 @@ namespace Twitch.Net
 
             var responseStream = await httpClient.GetAsync(_getClipsEndpoint, parameters, _clientId);
 
-            return await JsonSerializer.DeserializeAsync<TwitchPaginatedResponse<TwitchClip>>(responseStream);
+            return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixClip>>(responseStream);
         }
 
-        public async Task<TwitchPaginatedResponse<TwitchClip>> GetClipsFromBroadcaster(string broadcasterId, int first = 20, string after = null, string before = null)
+        public async Task<HelixPaginatedResponse<HelixClip>> GetClipsFromBroadcaster(string broadcasterId, int first = 20, string after = null, string before = null)
         {
             using var httpClient = GetHttpClient();
 
@@ -71,7 +71,7 @@ namespace Twitch.Net
 
             var responseStream = await httpClient.GetAsync(_getClipsEndpoint, parameters, _clientId);
 
-            return await JsonSerializer.DeserializeAsync<TwitchPaginatedResponse<TwitchClip>>(responseStream);
+            return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixClip>>(responseStream);
         }
 
     }

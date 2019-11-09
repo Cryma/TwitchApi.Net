@@ -2,7 +2,7 @@
 
 namespace Twitch.Net.Response
 {
-    public class TwitchPaginatedResponseWithTotal<TResponseObject> : TwitchPaginatedResponse<TResponseObject>
+    public class HelixPaginatedResponseWithTotal<TResponseObject> : HelixPaginatedResponse<TResponseObject>
     {
 
         [JsonPropertyName("total")]

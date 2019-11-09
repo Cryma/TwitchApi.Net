@@ -2,7 +2,7 @@
 
 namespace Twitch.Net.Models
 {
-    public class TwitchPagination
+    public class HelixPagination
     {
 
         [JsonPropertyName("cursor")]

@@ -2,7 +2,7 @@
 
 namespace Twitch.Net.Models
 {
-    public class TwitchUser
+    public class HelixUser
     {
 
         [JsonPropertyName("id")]
