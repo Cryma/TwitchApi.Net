@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Twitch.Net.Models;
 using Twitch.Net.Response;
@@ -15,29 +17,35 @@ namespace Twitch.Net
         {
             using var httpClient = GetHttpClient();
 
-            var url = $"{_getTopGamesEndpoint}?first={first}";
+            var parameters = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("first", first.ToString())
+            };
 
             if (string.IsNullOrEmpty(after) == false)
             {
-                url += $"&after={after}";
+                parameters.Add(new KeyValuePair<string, string>("after", after));
             }
 
             if (string.IsNullOrEmpty(before) == false)
             {
-                url += $"&before={before}";
+                parameters.Add(new KeyValuePair<string, string>("before", before));
             }
 
-            var responseStream = await httpClient.GetAsync(url, _clientId);
+            var responseStream = await httpClient.GetAsync(_getTopGamesEndpoint, parameters, _clientId);
 
             return await JsonSerializer.DeserializeAsync<TwitchPaginatedResponse<TwitchGame>>(responseStream);
         }
 
-        public async Task<TwitchResponse<TwitchGame>> GetGames(string[] ids)
+        public async Task<TwitchResponse<TwitchGame>> GetGames(string[] gameIds)
         {
             using var httpClient = GetHttpClient();
 
-            var url = $"{_getGamesEndpoint}?{GetQueryForParameters("id", ids)}";
-            var responseStream = await httpClient.GetAsync(url, _clientId);
+            var parameters = new List<KeyValuePair<string, string>>();
+
+            parameters.AddRange(gameIds.Select(gameId => new KeyValuePair<string, string>("id", gameId)));
+
+            var responseStream = await httpClient.GetAsync(_getGamesEndpoint, parameters, _clientId);
 
             return await JsonSerializer.DeserializeAsync<TwitchResponse<TwitchGame>>(responseStream);
         }

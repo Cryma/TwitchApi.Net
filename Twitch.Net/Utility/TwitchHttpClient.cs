@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Twitch.Net.Exceptions;
 
@@ -19,9 +21,18 @@ namespace Twitch.Net.Utility
             _ratelimitBypass = ratelimitBypass;
         }
 
-        public async Task<Stream> GetAsync(string url, string clientId = null)
+        public async Task<Stream> GetAsync(string url, List<KeyValuePair<string, string>> getParameters, string clientId = null)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var parameters = new StringBuilder();
+            if (getParameters != null)
+            {
+                foreach (var pair in getParameters)
+                {
+                    parameters.Append($"{pair.Key}={pair.Value}&");
+                }
+            }
+
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{url}?{parameters}");
 
             if (string.IsNullOrEmpty(clientId) == false)
             {

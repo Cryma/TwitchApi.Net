@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Twitch.Net.Models;
 using Twitch.Net.Response;
@@ -14,19 +16,24 @@ namespace Twitch.Net
         {
             using var httpClient = GetHttpClient();
 
-            var url = $"{_getStreamsEndpoint}?first={first}&{GetQueryForParameters("game_id", gameIds)}";
+            var parameters = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("first", first.ToString())
+            };
+
+            parameters.AddRange(gameIds.Select(gameId => new KeyValuePair<string, string>("game_id", gameId)));
 
             if (string.IsNullOrEmpty(after) == false)
             {
-                url += $"&after={after}";
+                parameters.Add(new KeyValuePair<string, string>("after", after));
             }
 
             if (string.IsNullOrEmpty(before) == false)
             {
-                url += $"&before={before}";
+                parameters.Add(new KeyValuePair<string, string>("before", before));
             }
 
-            var responseStream = await httpClient.GetAsync(url, _clientId);
+            var responseStream = await httpClient.GetAsync(_getStreamsEndpoint, parameters, _clientId);
 
             return await JsonSerializer.DeserializeAsync<TwitchPaginatedResponse<TwitchStream>>(responseStream);
         }
@@ -35,19 +42,24 @@ namespace Twitch.Net
         {
             using var httpClient = GetHttpClient();
 
-            var url = $"{_getStreamsEndpoint}?first={first}&{GetQueryForParameters("user_id", userIds)}";
+            var parameters = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("first", first.ToString())
+            };
+
+            parameters.AddRange(userIds.Select(userId => new KeyValuePair<string, string>("user_id", userId)));
 
             if (string.IsNullOrEmpty(after) == false)
             {
-                url += $"&after={after}";
+                parameters.Add(new KeyValuePair<string, string>("after", after));
             }
 
             if (string.IsNullOrEmpty(before) == false)
             {
-                url += $"&before={before}";
+                parameters.Add(new KeyValuePair<string, string>("before", before));
             }
 
-            var responseStream = await httpClient.GetAsync(url, _clientId);
+            var responseStream = await httpClient.GetAsync(_getStreamsEndpoint, parameters, _clientId);
 
             return await JsonSerializer.DeserializeAsync<TwitchPaginatedResponse<TwitchStream>>(responseStream);
         }

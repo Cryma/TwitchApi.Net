@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Twitch.Net.Models;
 using Twitch.Net.Response;
@@ -11,12 +13,14 @@ namespace Twitch.Net
         private const string _getUsersEndpoint = "https://api.twitch.tv/helix/users";
         private const string _getUsersFollowsEndpoint = "https://api.twitch.tv/helix/users/follows";
 
-        public async Task<TwitchResponse<TwitchUser>> GetUsers(string[] ids)
+        public async Task<TwitchResponse<TwitchUser>> GetUsers(string[] userIds)
         {
             using var httpClient = GetHttpClient();
 
-            var url = $"{_getUsersEndpoint}?{GetQueryForParameters("id", ids)}";
-            var responseStream = await httpClient.GetAsync(url, _clientId);
+            var parameters = new List<KeyValuePair<string, string>>();
+            parameters.AddRange(userIds.Select(userId => new KeyValuePair<string, string>("id", userId)));
+
+            var responseStream = await httpClient.GetAsync(_getUsersEndpoint, parameters, _clientId);
 
             return await JsonSerializer.DeserializeAsync<TwitchResponse<TwitchUser>>(responseStream);
         }
@@ -25,24 +29,27 @@ namespace Twitch.Net
         {
             using var httpClient = GetHttpClient();
 
-            var url = $"{_getUsersFollowsEndpoint}?first={first}";
+            var parameters = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("first", first.ToString())
+            };
 
             if(string.IsNullOrEmpty(after) == false)
             {
-                url += $"&after={after}";
+                parameters.Add(new KeyValuePair<string, string>("after", after));
             }
 
             if (string.IsNullOrEmpty(toId) == false)
             {
-                url += $"&to_id={toId}";
+                parameters.Add(new KeyValuePair<string, string>("to_id", toId));
             }
 
             if (string.IsNullOrEmpty(fromId) == false)
             {
-                url += $"&from_id={fromId}";
+                parameters.Add(new KeyValuePair<string, string>("from_id", fromId));
             }
 
-            var responseStream = await httpClient.GetAsync(url, _clientId);
+            var responseStream = await httpClient.GetAsync(_getUsersFollowsEndpoint, parameters, _clientId);
 
             return await JsonSerializer.DeserializeAsync<TwitchPaginatedResponseWithTotal<TwitchFollow>>(responseStream);
         }
