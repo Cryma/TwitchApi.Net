@@ -16,7 +16,7 @@
     <Product>TwitchApi.Net</Product>
     <AssemblyName>Twitch.Net</AssemblyName>
     <RootNamespace>Twitch.Net</RootNamespace>
-    <Version>1.2.0</Version>
+    <Version>1.3.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
