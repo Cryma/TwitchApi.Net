@@ -1,10 +1,9 @@
 ﻿using System.Text.Json;
 using System.Threading.Tasks;
-using TwitchApi.Net.Models;
-using TwitchApi.Net.Response;
-using TwitchApi.Net.Utility;
+using Twitch.Net.Models;
+using Twitch.Net.Response;
 
-namespace TwitchApi.Net
+namespace Twitch.Net
 {
     public partial class TwitchApi
     {

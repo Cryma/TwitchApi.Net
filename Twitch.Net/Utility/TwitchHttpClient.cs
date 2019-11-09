@@ -3,9 +3,9 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using TwitchApi.Net.Exceptions;
+using Twitch.Net.Exceptions;
 
-namespace TwitchApi.Net.Utility
+namespace Twitch.Net.Utility
 {
     public class TwitchHttpClient : IDisposable
     {

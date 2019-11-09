@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TwitchApi.Net.Utility;
+using Twitch.Net.Utility;
 
-namespace TwitchApi.Net
+namespace Twitch.Net
 {
     public partial class TwitchApi
     {

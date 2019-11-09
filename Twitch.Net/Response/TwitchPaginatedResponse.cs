@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using TwitchApi.Net.Models;
+using Twitch.Net.Models;
 
-namespace TwitchApi.Net.Response
+namespace Twitch.Net.Response
 {
     public class TwitchPaginatedResponse<TResponseObject>
     {

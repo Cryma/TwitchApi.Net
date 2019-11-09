@@ -14,8 +14,8 @@
     <Description>C# Wrapper for the Twitch Helix API</Description>
     <PackageId>TwitchApi.Net</PackageId>
     <Product>TwitchApi.Net</Product>
-    <AssemblyName>TwitchApi.Net</AssemblyName>
-    <RootNamespace>TwitchApi.Net</RootNamespace>
+    <AssemblyName>Twitch.Net</AssemblyName>
+    <RootNamespace>Twitch.Net</RootNamespace>
     <Version>1.1.0</Version>
   </PropertyGroup>
 

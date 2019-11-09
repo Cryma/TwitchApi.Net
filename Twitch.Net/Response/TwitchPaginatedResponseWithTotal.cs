@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace TwitchApi.Net.Response
+namespace Twitch.Net.Response
 {
     public class TwitchPaginatedResponseWithTotal<TResponseObject> : TwitchPaginatedResponse<TResponseObject>
     {
