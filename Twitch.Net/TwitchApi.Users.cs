@@ -20,7 +20,7 @@ namespace Twitch.Net
             var parameters = new List<KeyValuePair<string, string>>();
             parameters.AddRange(userIds.Select(userId => new KeyValuePair<string, string>("id", userId)));
 
-            var responseStream = await httpClient.GetAsync(_getUsersEndpoint, parameters, _clientId);
+            var responseStream = await httpClient.GetAsync(_getUsersEndpoint, parameters, _clientId, _accessToken);
 
             return await JsonSerializer.DeserializeAsync<HelixResponse<HelixUser>>(responseStream);
         }
@@ -49,7 +49,7 @@ namespace Twitch.Net
                 parameters.Add(new KeyValuePair<string, string>("from_id", fromId));
             }
 
-            var responseStream = await httpClient.GetAsync(_getUsersFollowsEndpoint, parameters, _clientId);
+            var responseStream = await httpClient.GetAsync(_getUsersFollowsEndpoint, parameters, _clientId, _accessToken);
 
             return await JsonSerializer.DeserializeAsync<HelixPaginatedResponseWithTotal<HelixFollow>>(responseStream);
         }

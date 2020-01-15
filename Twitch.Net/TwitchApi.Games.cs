@@ -32,7 +32,7 @@ namespace Twitch.Net
                 parameters.Add(new KeyValuePair<string, string>("before", before));
             }
 
-            var responseStream = await httpClient.GetAsync(_getTopGamesEndpoint, parameters, _clientId);
+            var responseStream = await httpClient.GetAsync(_getTopGamesEndpoint, parameters, _clientId, _accessToken);
 
             return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixGame>>(responseStream);
         }
@@ -45,7 +45,7 @@ namespace Twitch.Net
 
             parameters.AddRange(gameIds.Select(gameId => new KeyValuePair<string, string>("id", gameId)));
 
-            var responseStream = await httpClient.GetAsync(_getGamesEndpoint, parameters, _clientId);
+            var responseStream = await httpClient.GetAsync(_getGamesEndpoint, parameters, _clientId, _accessToken);
 
             return await JsonSerializer.DeserializeAsync<HelixResponse<HelixGame>>(responseStream);
         }

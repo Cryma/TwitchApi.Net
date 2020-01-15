@@ -6,12 +6,14 @@ namespace Twitch.Net
     {
 
         private readonly string _clientId;
+        private readonly string _accessToken;
         private readonly RatelimitBypass _ratelimitBypass;
 
 
-        public TwitchApi(string clientId, RatelimitBypass ratelimitBypass = null)
+        public TwitchApi(string clientId, string accessToken = null, RatelimitBypass ratelimitBypass = null)
         {
             _clientId = clientId;
+            _accessToken = accessToken;
             _ratelimitBypass = ratelimitBypass;
         }
 

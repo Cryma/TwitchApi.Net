@@ -21,7 +21,7 @@ namespace Twitch.Net.Utility
             _ratelimitBypass = ratelimitBypass;
         }
 
-        public async Task<Stream> GetAsync(string url, List<KeyValuePair<string, string>> getParameters, string clientId = null)
+        public async Task<Stream> GetAsync(string url, List<KeyValuePair<string, string>> getParameters, string clientId = null, string accessToken = null)
         {
             var parameters = new StringBuilder();
             if (getParameters != null)
@@ -37,6 +37,11 @@ namespace Twitch.Net.Utility
             if (string.IsNullOrEmpty(clientId) == false)
             {
                 request.Headers.Add("Client-ID", clientId);
+            }
+
+            if (string.IsNullOrEmpty(accessToken) == false)
+            {
+                request.Headers.Add("Authorization", $"Bearer {accessToken}");
             }
 
             if (_ratelimitBypass != null)

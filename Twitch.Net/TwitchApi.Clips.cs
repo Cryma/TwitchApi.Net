@@ -19,7 +19,7 @@ namespace Twitch.Net
             var parameters = new List<KeyValuePair<string, string>>();
             parameters.AddRange(clipIds.Select(clipId => new KeyValuePair<string, string>("id", clipId)));
 
-            var responseStream = await httpClient.GetAsync(_getClipsEndpoint, parameters, _clientId);
+            var responseStream = await httpClient.GetAsync(_getClipsEndpoint, parameters, _clientId, _accessToken);
 
             return await JsonSerializer.DeserializeAsync<HelixResponse<HelixClip>>(responseStream);
         }
@@ -44,7 +44,7 @@ namespace Twitch.Net
                 parameters.Add(new KeyValuePair<string, string>("before", before));
             }
 
-            var responseStream = await httpClient.GetAsync(_getClipsEndpoint, parameters, _clientId);
+            var responseStream = await httpClient.GetAsync(_getClipsEndpoint, parameters, _clientId, _accessToken);
 
             return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixClip>>(responseStream);
         }
@@ -69,7 +69,7 @@ namespace Twitch.Net
                 parameters.Add(new KeyValuePair<string, string>("before", before));
             }
 
-            var responseStream = await httpClient.GetAsync(_getClipsEndpoint, parameters, _clientId);
+            var responseStream = await httpClient.GetAsync(_getClipsEndpoint, parameters, _clientId, _accessToken);
 
             return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixClip>>(responseStream);
         }
