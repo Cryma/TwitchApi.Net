@@ -23,7 +23,7 @@ namespace Twitch.Net
 
         private TwitchHttpClient GetHttpClient()
         {
-            return new TwitchHttpClient(_ratelimitBypass);
+            return new TwitchHttpClient(_ratelimitBypass, _clientId, _accessToken);
         }
 
     }

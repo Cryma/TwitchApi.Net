@@ -33,7 +33,7 @@ namespace Twitch.Net
                 parameters.Add(new KeyValuePair<string, string>("before", before));
             }
 
-            var responseStream = await httpClient.GetAsync(_getStreamsEndpoint, parameters, _clientId, _accessToken);
+            var responseStream = await httpClient.GetAsync(_getStreamsEndpoint, parameters);
 
             return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixStream>>(responseStream);
         }
@@ -59,7 +59,7 @@ namespace Twitch.Net
                 parameters.Add(new KeyValuePair<string, string>("before", before));
             }
 
-            var responseStream = await httpClient.GetAsync(_getStreamsEndpoint, parameters, _clientId, _accessToken);
+            var responseStream = await httpClient.GetAsync(_getStreamsEndpoint, parameters);
 
             return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixStream>>(responseStream);
         }

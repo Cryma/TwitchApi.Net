@@ -15,13 +15,17 @@ namespace Twitch.Net.Utility
         private readonly HttpClient _httpClient = new HttpClient();
 
         private readonly RatelimitBypass _ratelimitBypass;
+        private readonly string _clientId;
+        private readonly string _accessToken;
 
-        public TwitchHttpClient(RatelimitBypass ratelimitBypass)
+        public TwitchHttpClient(RatelimitBypass ratelimitBypass, string clientId, string accessToken)
         {
             _ratelimitBypass = ratelimitBypass;
+            _clientId = clientId;
+            _accessToken = accessToken;
         }
 
-        public async Task<Stream> GetAsync(string url, List<KeyValuePair<string, string>> getParameters, string clientId = null, string accessToken = null)
+        public async Task<Stream> GetAsync(string url, List<KeyValuePair<string, string>> getParameters)
         {
             var parameters = new StringBuilder();
             if (getParameters != null)
@@ -34,14 +38,14 @@ namespace Twitch.Net.Utility
 
             var request = new HttpRequestMessage(HttpMethod.Get, $"{url}?{parameters}");
 
-            if (string.IsNullOrEmpty(clientId) == false)
+            if (string.IsNullOrEmpty(_clientId) == false)
             {
-                request.Headers.Add("Client-ID", clientId);
+                request.Headers.Add("Client-ID", _clientId);
             }
 
-            if (string.IsNullOrEmpty(accessToken) == false)
+            if (string.IsNullOrEmpty(_accessToken) == false)
             {
-                request.Headers.Add("Authorization", $"Bearer {accessToken}");
+                request.Headers.Add("Authorization", $"Bearer {_accessToken}");
             }
 
             if (_ratelimitBypass != null)
