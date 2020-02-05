@@ -10,11 +10,15 @@ namespace Twitch.Net
         private readonly RatelimitBypass _ratelimitBypass;
 
 
-        public TwitchApi(string clientId, string accessToken = null, RatelimitBypass ratelimitBypass = null)
+        public TwitchApi(string clientId, string accessToken = null, bool bypassRatelimit = false)
         {
             _clientId = clientId;
             _accessToken = accessToken;
-            _ratelimitBypass = ratelimitBypass;
+
+            if (bypassRatelimit)
+            {
+                _ratelimitBypass = new RatelimitBypass(string.IsNullOrEmpty(accessToken) ? 30 : 800);
+            }
         }
 
         private TwitchHttpClient GetHttpClient()

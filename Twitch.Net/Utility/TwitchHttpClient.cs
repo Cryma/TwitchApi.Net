@@ -9,7 +9,7 @@ using Twitch.Net.Exceptions;
 
 namespace Twitch.Net.Utility
 {
-    public class TwitchHttpClient : IDisposable
+    internal class TwitchHttpClient : IDisposable
     {
 
         private readonly HttpClient _httpClient = new HttpClient();

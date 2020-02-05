@@ -4,16 +4,22 @@ using System.Threading.Tasks;
 
 namespace Twitch.Net.Utility
 {
-    public class RatelimitBypass
+    internal class RatelimitBypass
     {
 
-        private const int ActionsPerMinute = 800;
-        private const int MillisecondDelayBetweenActions = 1000 / (ActionsPerMinute / 60) + 1;
+        private readonly int _actionsPerMinute;
+
+        private int _millisecondDelayBetweenActions => 1000 / (_actionsPerMinute / 60) + 1;
 
         private DateTime _lastAction = DateTime.UtcNow;
 
         private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
 
+        public RatelimitBypass(int actionsPerMinute)
+        {
+            _actionsPerMinute = actionsPerMinute;
+        }
+        
         public async Task Wait()
         {
             await _semaphoreSlim.WaitAsync();
@@ -22,9 +28,9 @@ namespace Twitch.Net.Utility
             {
                 var msSinceLastAction = (int)Math.Floor((DateTime.UtcNow - _lastAction).TotalMilliseconds);
 
-                if (msSinceLastAction < MillisecondDelayBetweenActions)
+                if (msSinceLastAction < _millisecondDelayBetweenActions)
                 {
-                    await Task.Delay(MillisecondDelayBetweenActions - msSinceLastAction);
+                    await Task.Delay(_millisecondDelayBetweenActions - msSinceLastAction);
                 }
 
                 _lastAction = DateTime.UtcNow;
