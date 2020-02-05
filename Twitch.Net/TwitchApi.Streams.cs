@@ -12,6 +12,14 @@ namespace Twitch.Net
 
         private const string _getStreamsEndpoint = "https://api.twitch.tv/helix/streams";
 
+        /// <summary>
+        /// Get streams for specific games
+        /// </summary>
+        /// <param name="gameIds">Array of game ids. Limit: 100</param>
+        /// <param name="first">Amount of streams. Limit: 100</param>
+        /// <param name="after">Cursor for pagination</param>
+        /// <param name="before">Cursor for pagination</param>
+        /// <returns><see cref="HelixPaginatedResponse{HelixStream}"/> with streams</returns>
         public async Task<HelixPaginatedResponse<HelixStream>> GetStreams(string[] gameIds, int first = 20, string after = null, string before = null)
         {
             using var httpClient = GetHttpClient();
@@ -38,6 +46,14 @@ namespace Twitch.Net
             return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixStream>>(responseStream);
         }
 
+        /// <summary>
+        /// Get streams for specific users
+        /// </summary>
+        /// <param name="userIds">Array of user ids. Limit: 100</param>
+        /// <param name="first">Amount of streams. Limit: 100</param>
+        /// <param name="after">Cursor for pagination</param>
+        /// <param name="before">Cursor for pagination</param>
+        /// <returns><see cref="HelixPaginatedResponse{HelixStream}"/> with streams</returns>
         public async Task<HelixPaginatedResponse<HelixStream>> GetStreams(string[] userIds, string after = null, string before = null, int first = 20)
         {
             using var httpClient = GetHttpClient();

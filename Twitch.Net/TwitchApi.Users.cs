@@ -13,6 +13,11 @@ namespace Twitch.Net
         private const string _getUsersEndpoint = "https://api.twitch.tv/helix/users";
         private const string _getUsersFollowsEndpoint = "https://api.twitch.tv/helix/users/follows";
 
+        /// <summary>
+        /// Get users from user ids
+        /// </summary>
+        /// <param name="userIds">Array of user ids. Limit: 100</param>
+        /// <returns><see cref="HelixResponse{HelixUser}"/> with users</returns>
         public async Task<HelixResponse<HelixUser>> GetUsers(string[] userIds)
         {
             using var httpClient = GetHttpClient();
@@ -25,6 +30,16 @@ namespace Twitch.Net
             return await JsonSerializer.DeserializeAsync<HelixResponse<HelixUser>>(responseStream);
         }
 
+        /// <summary>
+        /// Either get user follows or followers
+        ///
+        /// <para>Either specify "toId" or "fromId" - not both</para>
+        /// </summary>
+        /// <param name="first">Amount. Limit: 100</param>
+        /// <param name="after">Cursor for pagination</param>
+        /// <param name="toId">User id you want the followers of</param>
+        /// <param name="fromId">User id you want the follows of</param>
+        /// <returns><see cref="HelixPaginatedResponseWithTotal{HelixFollow}"/> with follows</returns>
         public async Task<HelixPaginatedResponseWithTotal<HelixFollow>> GetUsersFollows(int first = 20, string after = null, string toId = null, string fromId = null)
         {
             using var httpClient = GetHttpClient();

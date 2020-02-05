@@ -9,7 +9,14 @@ namespace Twitch.Net
         private readonly string _accessToken;
         private readonly RatelimitBypass _ratelimitBypass;
 
-
+        /// <summary>
+        /// Initialize the Twitch API
+        ///
+        /// <para>Note: Without accessToken, the rate-limit is drastically reduced.</para>
+        /// </summary>
+        /// <param name="clientId">Developer application client id</param>
+        /// <param name="accessToken">Developer application access token</param>
+        /// <param name="bypassRatelimit">Whether or not the rate-limit should be bypassed (by waiting between requests)</param>
         public TwitchApi(string clientId, string accessToken = null, bool bypassRatelimit = false)
         {
             _clientId = clientId;
