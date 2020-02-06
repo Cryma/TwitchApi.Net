@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Twitch.Net.Models.Enums;
 
 namespace Twitch.Net.Models
 {
@@ -70,7 +71,7 @@ namespace Twitch.Net.Models
         /// <para>Either "public" or "private"</para>
         /// </summary>
         [JsonPropertyName("viewable")]
-        public string Viewable { get; set; }
+        public HelixVideoViewableType Viewable { get; set; }
 
         /// <summary>
         /// Video view count
@@ -90,7 +91,7 @@ namespace Twitch.Net.Models
         /// <para>Either "upload", "archive" or "highlight"</para>
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public HelixVideoType Type { get; set; }
 
         /// <summary>
         /// Video duration
