@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Twitch.Net.Models.Enums;
 
 namespace Twitch.Net.Models
 {
@@ -26,23 +27,17 @@ namespace Twitch.Net.Models
         [JsonPropertyName("display_name")]
         public string DisplayName { get; set; }
 
-        // TODO: Add enum
         /// <summary>
         /// User type
-        ///
-        /// <para>Either "staff", "admin", "global_mod" or empty string</para>
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public HelixUserType Type { get; set; }
 
-        // TODO: Add enum
         /// <summary>
         /// Broadcaster type
-        ///
-        /// <para>Either "partner", "affiliate" or empty string</para>
         /// </summary>
         [JsonPropertyName("broadcaster_type")]
-        public string BroadcasterType { get; set; }
+        public HelixBroadcasterType BroadcasterType { get; set; }
 
         /// <summary>
         /// User channel description
