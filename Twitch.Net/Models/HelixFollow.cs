@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Twitch.Net.Models
 {
@@ -40,7 +41,7 @@ namespace Twitch.Net.Models
         /// Date and time when the follow was created
         /// </summary>
         [JsonPropertyName("followed_at")]
-        public string FollowedAt { get; set; }
+        public DateTime FollowedAt { get; set; }
 
     }
 }

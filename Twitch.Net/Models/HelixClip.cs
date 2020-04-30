@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Twitch.Net.Models
 {
@@ -84,12 +85,11 @@ namespace Twitch.Net.Models
         [JsonPropertyName("view_count")]
         public int ViewCount { get; set; }
 
-        // TODO: Parse as actual datetime
         /// <summary>
         /// Creation date and time
         /// </summary>
         [JsonPropertyName("created_at")]
-        public string CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         /// <summary>
         /// Clip thumbnail url
