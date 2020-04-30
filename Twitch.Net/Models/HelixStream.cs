@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Twitch.Net.Models
 {
@@ -58,7 +59,7 @@ namespace Twitch.Net.Models
         /// Date and time the stream was started at
         /// </summary>
         [JsonPropertyName("started_at")]
-        public string StartedAt { get; set; }
+        public DateTime StartedAt { get; set; }
 
         /// <summary>
         /// Stream language

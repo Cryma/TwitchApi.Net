@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 using Twitch.Net.Models.Enums;
 
 namespace Twitch.Net.Models
@@ -45,13 +46,13 @@ namespace Twitch.Net.Models
         /// Date and time the video was created at
         /// </summary>
         [JsonPropertyName("created_at")]
-        public string CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         /// <summary>
         /// Date and time the video was published at
         /// </summary>
         [JsonPropertyName("published_at")]
-        public string PublishedAt { get; set; }
+        public DateTime PublishedAt { get; set; }
 
         /// <summary>
         /// Video url
