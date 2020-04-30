@@ -1,25 +1,20 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Twitch.Net.Interfaces;
 
-namespace Twitch.Net.Utility
+namespace Twitch.Net.Strategies
 {
-    internal class RatelimitBypass
+    internal class RateLimitWaitBetweenRequestsStrategy : IRateLimitStrategy
     {
 
-        private readonly int _actionsPerMinute;
-
-        private int _millisecondDelayBetweenActions => 1000 / (_actionsPerMinute / 60) + 1;
+        private const int _actionsPerMinute = 800;
+        private const int _millisecondDelayBetweenActions = 1000 / (_actionsPerMinute / 60) + 1;
 
         private DateTime _lastAction = DateTime.UtcNow;
 
         private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
 
-        public RatelimitBypass(int actionsPerMinute)
-        {
-            _actionsPerMinute = actionsPerMinute;
-        }
-        
         public async Task Wait()
         {
             await _semaphoreSlim.WaitAsync();
