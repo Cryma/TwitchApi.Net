@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Twitch.Net.Exceptions;
+using Twitch.Net.Interfaces;
 
 namespace Twitch.Net.Utility
 {
@@ -14,13 +15,13 @@ namespace Twitch.Net.Utility
 
         private readonly HttpClient _httpClient = new HttpClient();
 
-        private readonly RatelimitBypass _ratelimitBypass;
+        private readonly IRateLimitStrategy _rateLimitStrategy;
         private readonly string _clientId;
         private readonly string _accessToken;
 
-        public TwitchHttpClient(RatelimitBypass ratelimitBypass, string clientId, string accessToken)
+        public TwitchHttpClient(IRateLimitStrategy ratelimitBypass, string clientId, string accessToken)
         {
-            _ratelimitBypass = ratelimitBypass;
+            _rateLimitStrategy = ratelimitBypass;
             _clientId = clientId;
             _accessToken = accessToken;
         }
@@ -48,9 +49,9 @@ namespace Twitch.Net.Utility
                 request.Headers.Add("Authorization", $"Bearer {_accessToken}");
             }
 
-            if (_ratelimitBypass != null)
+            if (_rateLimitStrategy != null)
             {
-                await _ratelimitBypass.Wait();
+                await _rateLimitStrategy.Wait();
             }
 
             var response = await _httpClient.SendAsync(request);
