@@ -8,38 +8,21 @@ namespace Twitch.Net
     {
 
         private readonly string _clientId;
-        private readonly string _accessToken;
+
+        private IAccessTokenStrategy _accessTokenStrategy;
         private IRateLimitStrategy _rateLimitStrategy;
 
-        /// <summary>
-        /// Initialize the Twitch API
-        ///
-        /// <para>Note: Without accessToken, the rate-limit is drastically reduced.</para>
-        /// </summary>
-        /// <param name="clientId">Developer application client id</param>
-        /// <param name="accessToken">Developer application access token</param>
-        public TwitchApi(string clientId, string accessToken = null)
+        internal TwitchApi(string clientId, IAccessTokenStrategy accessTokenStrategy, IRateLimitStrategy rateLimitStrategy)
         {
             _clientId = clientId;
-            _accessToken = accessToken;
 
-            _rateLimitStrategy = new RateLimitIgnoreStrategy();
-        }
-
-        /// <summary>
-        /// Add a rate limit bypass by waiting between requests
-        /// </summary>
-        /// <returns></returns>
-        public TwitchApi WithRateLimitBypass()
-        {
-            _rateLimitStrategy = new RateLimitWaitBetweenRequestsStrategy();
-
-            return this;
+            _accessTokenStrategy = accessTokenStrategy;
+            _rateLimitStrategy = rateLimitStrategy;
         }
 
         private TwitchHttpClient GetHttpClient()
         {
-            return new TwitchHttpClient(_rateLimitStrategy, _clientId, _accessToken);
+            return new TwitchHttpClient(_clientId, _accessTokenStrategy, _rateLimitStrategy);
         }
 
     }
