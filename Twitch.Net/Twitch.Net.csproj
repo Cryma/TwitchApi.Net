@@ -6,7 +6,7 @@
     <Authors>Cryma</Authors>
     <PackageLicenseFile></PackageLicenseFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Copyright>2019 - Cryma</Copyright>
+    <Copyright>2020 - Cryma</Copyright>
     <RepositoryUrl>https://github.com/Cryma/TwitchApi.Net</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Cryma/TwitchApi.Net</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
@@ -16,7 +16,7 @@
     <Product>TwitchApi.Net</Product>
     <AssemblyName>Twitch.Net</AssemblyName>
     <RootNamespace>Twitch.Net</RootNamespace>
-    <Version>1.5.0</Version>
+    <Version>2.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
