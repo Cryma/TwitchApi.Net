@@ -5,6 +5,11 @@
 
 Twi<span>tchApi.N</span>et aims to provide easy, thread-safe access to the Twitch Helix API. Under the hood it is targeting `netstandard2.0`, so it can be use with either .NET Framework or .NET Core. The libray also ships with a rate-limit bypass, which enforces waits between requests so you won't exceed the Helix API rate-limiting.
 
+# Authentication
+As of May 01, 2020, all requests have to contain a valid OAuth token, accompanied by the assosicated client ID.
+
+To assist with that change, you have the option to provide an client secret so that Twi<span>tchApi.N</span>et can handle the request and maintenance of an OAuth token.
+
 # Installation
 To install this library via [NuGet](https://www.nuget.org/packages/TwitchApi.Net/), use:
 ```ps
