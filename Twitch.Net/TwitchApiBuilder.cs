@@ -1,4 +1,6 @@
-﻿using Twitch.Net.Interfaces;
+﻿using System;
+using Twitch.Net.Exceptions;
+using Twitch.Net.Interfaces;
 using Twitch.Net.Strategies;
 
 namespace Twitch.Net
@@ -20,7 +22,10 @@ namespace Twitch.Net
 
         public TwitchApiBuilder WithClientSecret(string clientSecret)
         {
-            // TODO: Validate parameter
+            if (clientSecret == null)
+            {
+                throw new ArgumentNullException(nameof(clientSecret));
+            }
 
             _accessTokenStrategy = new AccessTokenGeneratedStrategy(_clientId, clientSecret);
 
@@ -29,7 +34,10 @@ namespace Twitch.Net
 
         public TwitchApiBuilder WithAccessToken(string accessToken)
         {
-            // TODO: Validate parameter
+            if (accessToken == null)
+            {
+                throw new ArgumentNullException(nameof(accessToken));
+            }
 
             _accessTokenStrategy = new AccessTokenSuppliedStrategy(accessToken);
 
@@ -45,7 +53,10 @@ namespace Twitch.Net
 
         public TwitchApi Build()
         {
-            // TODO: Check if AccessTokenStrategy was set
+            if (_accessTokenStrategy == null)
+            {
+                throw new NoAccessTokenProvidedException("Neither an access token nor a client secret has been provided!");
+            }
 
             return new TwitchApi(_clientId, _accessTokenStrategy, _rateLimitStrategy);
         }
