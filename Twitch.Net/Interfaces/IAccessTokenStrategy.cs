@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Twitch.Net.Interfaces
 {
-    interface IAccessTokenStrategy
+    internal interface IAccessTokenStrategy
     {
 
         Task<string> GetAccessToken();

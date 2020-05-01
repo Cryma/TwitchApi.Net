@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Twitch.Net.Interfaces
 {
-    interface IRateLimitStrategy
+    internal interface IRateLimitStrategy
     {
 
         Task Wait();
