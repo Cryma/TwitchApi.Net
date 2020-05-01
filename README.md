@@ -16,6 +16,15 @@ To install this library via [NuGet](https://www.nuget.org/packages/TwitchApi.Net
 Install-Package TwitchApi.Net
 ```
 
+# Example Usage
+```cs
+var twitchApi = new TwitchApiBuilder("CLIENT_ID")
+    .WithAccessToken("ACCESS_TOKEN") // Either specify a valid OAuth token.
+    .WithClientSecret("CLIENT_SECRET") // Or specify a client secret. (automatic OAuth token handling)
+    .WithRateLimitBypass() // Optional rate limit bypass
+    .Build();
+```
+
 # Supported Helix API sections
 * [Clips](https://dev.twitch.tv/docs/api/reference#get-clips)
 * [Users](https://dev.twitch.tv/docs/api/reference#get-users)
@@ -26,7 +35,7 @@ Install-Package TwitchApi.Net
 * [Videos](https://dev.twitch.tv/docs/api/reference#get-videos)
 
 # MIT License
-Copyright (c) 2019 Fabian Vowie
+Copyright (c) 2020 Fabian Vowie
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
