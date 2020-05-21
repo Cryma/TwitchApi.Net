@@ -81,7 +81,12 @@ namespace Twitch.Net
             {
                 parameters.Add(new KeyValuePair<string, string>("before", before));
             }
-
+		
+	    if (string.IsNullOrEmpty(before) == false)
+            {
+                parameters.Add(new KeyValuePair<string, string>("before", before));
+            }
+		
             var responseStream = await httpClient.GetAsync(_getStreamsEndpoint, parameters);
 
             return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixStream>>(responseStream);
