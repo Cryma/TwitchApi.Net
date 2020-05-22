@@ -21,7 +21,7 @@ namespace Twitch.Net
         /// <param name="after">Cursor for pagination</param>
         /// <param name="before">Cursor for pagination</param>
         /// <returns><see cref="HelixPaginatedResponse{HelixStream}"/> with streams</returns>
-        public async Task<HelixPaginatedResponse<HelixStream>> GetStreams(string[] gameIds, int first = 20, string language = null, string after = null, string before = null)
+        public async Task<HelixPaginatedResponse<HelixStream>> GetStreamsWithGameIds(string[] gameIds, int first = 20, string[] languages = null, string after = null, string before = null)
         {
             using var httpClient = GetHttpClient();
 
@@ -42,26 +42,26 @@ namespace Twitch.Net
                 parameters.Add(new KeyValuePair<string, string>("before", before));
             }
 
-            if (string.IsNullOrEmpty(language) == false)
+            if (languages != null)
             {
-                parameters.Add(new KeyValuePair<string, string>("language", language));
+                parameters.AddRange(languages.Select(language => new KeyValuePair<string, string>("language", language)));
             }
-            
+
             var responseStream = await httpClient.GetAsync(_getStreamsEndpoint, parameters);
 
             return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixStream>>(responseStream);
         }
 
         /// <summary>
-        /// Get streams for specific users
+        /// Get streams for specific user ids
         /// </summary>
         /// <param name="userIds">Array of user ids. Limit: 100</param>
         /// <param name="first">Amount of streams. Limit: 100</param>
-		/// <param name="language">Stream language. Limit: 100</param>
+        /// <param name="language">Stream language. Limit: 100</param>
         /// <param name="after">Cursor for pagination</param>
         /// <param name="before">Cursor for pagination</param>
         /// <returns><see cref="HelixPaginatedResponse{HelixStream}"/> with streams</returns>
-        public async Task<HelixPaginatedResponse<HelixStream>> GetStreams(string[] userIds, int first = 20, string language = null, string after = null, string before = null)
+        public async Task<HelixPaginatedResponse<HelixStream>> GetStreamsWithUserIds(string[] userIds, int first = 20, string[] languages = null, string after = null, string before = null)
         {
             using var httpClient = GetHttpClient();
 
@@ -81,27 +81,27 @@ namespace Twitch.Net
             {
                 parameters.Add(new KeyValuePair<string, string>("before", before));
             }
-		
-	    if (string.IsNullOrEmpty(before) == false)
+
+            if (languages != null)
             {
-                parameters.Add(new KeyValuePair<string, string>("before", before));
+                parameters.AddRange(languages.Select(language => new KeyValuePair<string, string>("language", language)));
             }
-		
+
             var responseStream = await httpClient.GetAsync(_getStreamsEndpoint, parameters);
 
             return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixStream>>(responseStream);
         }
-        
+
         /// <summary>
-        /// Get streams for specific usernames
+        /// Get streams for specific user logins
         /// </summary>
-        /// <param name="userLogins">Array of user login names. Limit: 100</param>
+        /// <param name="userLogins">Array of user logins. Limit: 100</param>
         /// <param name="first">Amount of streams. Limit: 100</param>
         /// <param name="language">Stream language. Limit: 100</param>
         /// <param name="after">Cursor for pagination</param>
         /// <param name="before">Cursor for pagination</param>
         /// <returns><see cref="HelixPaginatedResponse{HelixStream}"/> with streams</returns>
-        public async Task<HelixPaginatedResponse<HelixStream>> GetStreams(string[] userLogins, int first = 20, string language = null, string after = null, string before = null)
+        public async Task<HelixPaginatedResponse<HelixStream>> GetStreamsWithUserLogins(string[] userLogins, int first = 20, string[] languages = null, string after = null, string before = null)
         {
             using var httpClient = GetHttpClient();
 
@@ -122,15 +122,15 @@ namespace Twitch.Net
                 parameters.Add(new KeyValuePair<string, string>("before", before));
             }
 
-            if (string.IsNullOrEmpty(language) == false)
+            if (languages != null)
             {
-                parameters.Add(new KeyValuePair<string, string>("language", language));
+                parameters.AddRange(languages.Select(language => new KeyValuePair<string, string>("language", language)));
             }
-            
+
             var responseStream = await httpClient.GetAsync(_getStreamsEndpoint, parameters);
 
             return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixStream>>(responseStream);
         }
-        
+
     }
 }
