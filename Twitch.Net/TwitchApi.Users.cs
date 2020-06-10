@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -13,17 +14,39 @@ namespace Twitch.Net
         private const string _getUsersEndpoint = "https://api.twitch.tv/helix/users";
         private const string _getUsersFollowsEndpoint = "https://api.twitch.tv/helix/users/follows";
 
+        [Obsolete("This method is obsolete. Use GetUsersWithIds instead.", false)]
+        public Task<HelixResponse<HelixUser>> GetUsers(string[] userIds) => GetUsersWithIds(userIds);
+
         /// <summary>
         /// Get users from user ids
         /// </summary>
         /// <param name="userIds">Array of user ids. Limit: 100</param>
         /// <returns><see cref="HelixResponse{HelixUser}"/> with users</returns>
-        public async Task<HelixResponse<HelixUser>> GetUsers(string[] userIds)
+        public async Task<HelixResponse<HelixUser>> GetUsersWithIds(string[] userIds)
         {
             using var httpClient = GetHttpClient();
 
             var parameters = new List<KeyValuePair<string, string>>();
+
             parameters.AddRange(userIds.Select(userId => new KeyValuePair<string, string>("id", userId)));
+
+            var responseStream = await httpClient.GetAsync(_getUsersEndpoint, parameters);
+
+            return await JsonSerializer.DeserializeAsync<HelixResponse<HelixUser>>(responseStream);
+        }
+
+        /// <summary>
+        /// Get users from user login names
+        /// </summary>
+        /// <param name="userLoginNames">Array of user login names. Limit: 100</param>
+        /// <returns><see cref="HelixResponse{HelixUser}"/> with users</returns>
+        public async Task<HelixResponse<HelixUser>> GetUsersWithLoginNames(string[] userLoginNames)
+        {
+            using var httpClient = GetHttpClient();
+
+            var parameters = new List<KeyValuePair<string, string>>();
+
+            parameters.AddRange(userLoginNames.Select(userId => new KeyValuePair<string, string>("login", userId)));
 
             var responseStream = await httpClient.GetAsync(_getUsersEndpoint, parameters);
 
