@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Web;
 using Twitch.Net.Models;
 using Twitch.Net.Response;
+using Twitch.Net.Utility;
 
 namespace Twitch.Net
 {
@@ -69,8 +72,10 @@ namespace Twitch.Net
         /// <param name="first">Amount of clips. Limit: 100</param>
         /// <param name="after">Cursor for pagination</param>
         /// <param name="before">Cursor for pagination</param>
+        /// <param name="startedAt">Starting date/time for returned clips. If this is specified, ended_at also should be specified; otherwise, the ended_at date/time will be 1 week after the started_at value.</param>
+        /// <param name="endedAt">Ending date/time for returned clips.) If this is specified, started_at also must be specified; otherwise, the time period is ignored.</param>
         /// <returns><see cref="HelixPaginatedResponse{HelixClips}"/> with clips</returns>
-        public async Task<HelixPaginatedResponse<HelixClip>> GetClipsFromBroadcaster(string broadcasterId, int first = 20, string after = null, string before = null)
+        public async Task<HelixPaginatedResponse<HelixClip>> GetClipsFromBroadcaster(string broadcasterId, int first = 20, string after = null, string before = null, DateTime? startedAt = null, DateTime? endedAt = null)
         {
             using var httpClient = GetHttpClient();
 
@@ -88,6 +93,16 @@ namespace Twitch.Net
             if (string.IsNullOrEmpty(before) == false)
             {
                 parameters.Add(new KeyValuePair<string, string>("before", before));
+            }
+
+            if (startedAt.HasValue)
+            {
+                parameters.Add(new KeyValuePair<string, string>("started_at", HttpUtility.UrlEncode(startedAt.Value.ToRfc3339String())));
+            }
+            
+            if (endedAt.HasValue)
+            {
+                parameters.Add(new KeyValuePair<string, string>("ended_at", HttpUtility.UrlEncode(endedAt.Value.ToRfc3339String())));
             }
 
             var responseStream = await httpClient.GetAsync(_getClipsEndpoint, parameters);
