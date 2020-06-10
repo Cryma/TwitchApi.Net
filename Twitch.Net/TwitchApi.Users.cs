@@ -17,21 +17,32 @@ namespace Twitch.Net
         /// Get users from user ids
         /// </summary>
         /// <param name="userIds">Array of user ids. Limit: 100</param>
-        /// <param name="userLogins">Array of user logins. Limit: 100</param>
         /// <returns><see cref="HelixResponse{HelixUser}"/> with users</returns>
-        public async Task<HelixResponse<HelixUser>> GetUsers(string[] userIds = null, string[] userLogins = null)
+        public async Task<HelixResponse<HelixUser>> GetUsersWithIds(string[] userIds)
         {
             using var httpClient = GetHttpClient();
 
             var parameters = new List<KeyValuePair<string, string>>();
-            if (userIds != null)
-            {
-                parameters.AddRange(userIds.Select(userId => new KeyValuePair<string, string>("id", userId)));
-            }
-            if (userLogins != null)
-            {
-                parameters.AddRange(userLogins.Select(userLogin => new KeyValuePair<string, string>("login", userLogin)));
-            }
+
+            parameters.AddRange(userIds.Select(userId => new KeyValuePair<string, string>("id", userId)));
+
+            var responseStream = await httpClient.GetAsync(_getUsersEndpoint, parameters);
+
+            return await JsonSerializer.DeserializeAsync<HelixResponse<HelixUser>>(responseStream);
+        }
+
+        /// <summary>
+        /// Get users from user login names
+        /// </summary>
+        /// <param name="userLoginNames">Array of user login names. Limit: 100</param>
+        /// <returns><see cref="HelixResponse{HelixUser}"/> with users</returns>
+        public async Task<HelixResponse<HelixUser>> GetUsersWithLoginNames(string[] userLoginNames)
+        {
+            using var httpClient = GetHttpClient();
+
+            var parameters = new List<KeyValuePair<string, string>>();
+
+            parameters.AddRange(userLoginNames.Select(userId => new KeyValuePair<string, string>("login", userId)));
 
             var responseStream = await httpClient.GetAsync(_getUsersEndpoint, parameters);
 
