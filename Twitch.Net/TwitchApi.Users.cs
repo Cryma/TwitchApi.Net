@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -12,6 +13,9 @@ namespace Twitch.Net
 
         private const string _getUsersEndpoint = "https://api.twitch.tv/helix/users";
         private const string _getUsersFollowsEndpoint = "https://api.twitch.tv/helix/users/follows";
+
+        [Obsolete("This method is obsolete. Use GetUsersWithIds instead.", false)]
+        public Task<HelixResponse<HelixUser>> GetUsers(string[] userIds) => GetUsersWithIds(userIds);
 
         /// <summary>
         /// Get users from user ids
