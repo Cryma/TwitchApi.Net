@@ -56,6 +56,30 @@ namespace Twitch.Net.Utility
             return null;
         }
 
+        public async Task<Stream> PostAsync(string url, List<KeyValuePair<string, string>> bodyParameters)
+        {
+            var body = new FormUrlEncodedContent(bodyParameters);
+
+            var request = new HttpRequestMessage(HttpMethod.Post, url);
+            request.Headers.Add("Authorization", $"Bearer {await _accessTokenStrategy.GetAccessToken()}");
+            request.Headers.Add("Client-ID", _clientId);
+            request.Content = body;
+
+            await _rateLimitStrategy.Wait();
+
+            var response = await _httpClient.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsStreamAsync();
+            }
+
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
+
+            HandleExceptions(response);
+
+            return null;
+        }
+
         private void HandleExceptions(HttpResponseMessage response)
         {
             switch (response.StatusCode)
@@ -70,7 +94,7 @@ namespace Twitch.Net.Utility
                     throw new TwitchTooManyRequestsException("Too many requests - make sure not to exceed the rate-limit!");
 
                 default:
-                    throw new HttpRequestException();
+                    throw new HttpRequestException($"Request failed with status code: {response.StatusCode}");
             }
         }
 

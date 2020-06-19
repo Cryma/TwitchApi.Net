@@ -7,6 +7,7 @@ namespace Twitch.Net
     public class TwitchApi
     {
 
+        public IAdActions Ads { get; }
         public IClipActions Clips { get; }
         public IGameActions Games { get; }
         public IStreamActions Streams { get; }
@@ -25,6 +26,7 @@ namespace Twitch.Net
             _accessTokenStrategy = accessTokenStrategy;
             _rateLimitStrategy = rateLimitStrategy;
 
+            Ads = new AdActions(GetHttpClient);
             Clips = new ClipActions(GetHttpClient);
             Games = new GameActions(GetHttpClient);
             Streams = new StreamActions(GetHttpClient);
