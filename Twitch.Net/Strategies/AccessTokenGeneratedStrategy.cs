@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Twitch.Net.Interfaces;
-using Twitch.Net.Response;
+using Twitch.Net.Models.Responses;
 
 namespace Twitch.Net.Strategies
 {

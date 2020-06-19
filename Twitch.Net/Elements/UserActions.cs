@@ -3,28 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Twitch.Net.Interfaces;
 using Twitch.Net.Models;
-using Twitch.Net.Response;
+using Twitch.Net.Models.Responses;
+using Twitch.Net.Utility;
 
-namespace Twitch.Net
+namespace Twitch.Net.Elements
 {
-    public partial class TwitchApi
+    public class UserActions : IUserActions
     {
 
         private const string _getUsersEndpoint = "https://api.twitch.tv/helix/users";
         private const string _getUsersFollowsEndpoint = "https://api.twitch.tv/helix/users/follows";
 
-        [Obsolete("This method is obsolete. Use GetUsersWithIds instead.", false)]
-        public Task<HelixResponse<HelixUser>> GetUsers(string[] userIds) => GetUsersWithIds(userIds);
+        private readonly Func<TwitchHttpClient> _httpClientFactory;
 
-        /// <summary>
-        /// Get users from user ids
-        /// </summary>
-        /// <param name="userIds">Array of user ids. Limit: 100</param>
-        /// <returns><see cref="HelixResponse{HelixUser}"/> with users</returns>
+        internal UserActions(Func<TwitchHttpClient> httpClientFactory)
+        {
+            _httpClientFactory = httpClientFactory;
+        }
+
         public async Task<HelixResponse<HelixUser>> GetUsersWithIds(string[] userIds)
         {
-            using var httpClient = GetHttpClient();
+            using var httpClient = _httpClientFactory();
 
             var parameters = new List<KeyValuePair<string, string>>();
 
@@ -35,14 +36,9 @@ namespace Twitch.Net
             return await JsonSerializer.DeserializeAsync<HelixResponse<HelixUser>>(responseStream);
         }
 
-        /// <summary>
-        /// Get users from user login names
-        /// </summary>
-        /// <param name="userLoginNames">Array of user login names. Limit: 100</param>
-        /// <returns><see cref="HelixResponse{HelixUser}"/> with users</returns>
         public async Task<HelixResponse<HelixUser>> GetUsersWithLoginNames(string[] userLoginNames)
         {
-            using var httpClient = GetHttpClient();
+            using var httpClient = _httpClientFactory();
 
             var parameters = new List<KeyValuePair<string, string>>();
 
@@ -53,26 +49,16 @@ namespace Twitch.Net
             return await JsonSerializer.DeserializeAsync<HelixResponse<HelixUser>>(responseStream);
         }
 
-        /// <summary>
-        /// Either get user follows or followers
-        ///
-        /// <para>Either specify "toId" or "fromId" - not both</para>
-        /// </summary>
-        /// <param name="first">Amount. Limit: 100</param>
-        /// <param name="after">Cursor for pagination</param>
-        /// <param name="toId">User id you want the followers of</param>
-        /// <param name="fromId">User id you want the follows of</param>
-        /// <returns><see cref="HelixPaginatedResponseWithTotal{HelixFollow}"/> with follows</returns>
         public async Task<HelixPaginatedResponseWithTotal<HelixFollow>> GetUsersFollows(int first = 20, string after = null, string toId = null, string fromId = null)
         {
-            using var httpClient = GetHttpClient();
+            using var httpClient = _httpClientFactory();
 
             var parameters = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("first", first.ToString())
             };
 
-            if(string.IsNullOrEmpty(after) == false)
+            if (string.IsNullOrEmpty(after) == false)
             {
                 parameters.Add(new KeyValuePair<string, string>("after", after));
             }
