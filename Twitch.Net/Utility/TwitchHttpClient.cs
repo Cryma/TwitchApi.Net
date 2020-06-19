@@ -4,9 +4,11 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Twitch.Net.Exceptions;
 using Twitch.Net.Interfaces;
+using Twitch.Net.Models.Responses;
 
 namespace Twitch.Net.Utility
 {
@@ -51,7 +53,7 @@ namespace Twitch.Net.Utility
                 return await response.Content.ReadAsStreamAsync();
             }
 
-            HandleExceptions(response);
+            await HandleExceptions(response);
 
             return null;
         }
@@ -73,14 +75,12 @@ namespace Twitch.Net.Utility
                 return await response.Content.ReadAsStreamAsync();
             }
 
-            Console.WriteLine(await response.Content.ReadAsStringAsync());
-
-            HandleExceptions(response);
+            await HandleExceptions(response);
 
             return null;
         }
 
-        private void HandleExceptions(HttpResponseMessage response)
+        private async Task HandleExceptions(HttpResponseMessage response)
         {
             switch (response.StatusCode)
             {
@@ -92,6 +92,12 @@ namespace Twitch.Net.Utility
 
                 case (HttpStatusCode) 429:
                     throw new TwitchTooManyRequestsException("Too many requests - make sure not to exceed the rate-limit!");
+
+                case HttpStatusCode.NotFound:
+                    var notFoundResponseStream = await response.Content.ReadAsStreamAsync();
+                    var notFoundResponse = await JsonSerializer.DeserializeAsync<HelixNotFoundResponse>(notFoundResponseStream);
+
+                    throw new TwitchNotFoundException($"404 Not Found - Message: {notFoundResponse.Message}");
 
                 default:
                     throw new HttpRequestException($"Request failed with status code: {response.StatusCode}");
