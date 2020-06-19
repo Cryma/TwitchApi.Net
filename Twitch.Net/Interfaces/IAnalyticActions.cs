@@ -12,7 +12,13 @@ namespace Twitch.Net.Interfaces
         Task<HelixResponse<HelixExtensionAnalytic>> GetExtensionAnalytic(string extensionId = null, int first = 20, string after = null,
             DateTime? startedAt = null, DateTime? endedAt = null);
 
-        Task<HelixPaginatedResponse<HelixExtensionAnalytic>> GetExtensionAnalyticWithType(HelixExtensionAnalyticType type, string extensionId = null,
+        Task<HelixPaginatedResponse<HelixExtensionAnalytic>> GetExtensionAnalyticsWithType(HelixAnalyticType type, string extensionId = null,
+            int first = 20, string after = null, DateTime? startedAt = null, DateTime? endedAt = null);
+
+        Task<HelixResponse<HelixGameAnalytic>> GetGameAnalytic(string gameId = null, int first = 20, string after = null,
+            DateTime? startedAt = null, DateTime? endedAt = null);
+
+        Task<HelixPaginatedResponse<HelixGameAnalytic>> GetGameAnalyticsWithType(HelixAnalyticType type, string gameId = null,
             int first = 20, string after = null, DateTime? startedAt = null, DateTime? endedAt = null);
 
     }

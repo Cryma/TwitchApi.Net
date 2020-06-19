@@ -4,11 +4,11 @@ using Twitch.Net.Models.Partials;
 
 namespace Twitch.Net.Models
 {
-    public class HelixExtensionAnalytic
+    public class HelixGameAnalytic
     {
 
-        [JsonPropertyName("extension_id")]
-        public string ExtensionId { get; set; }
+        [JsonPropertyName("game_id")]
+        public string GameId { get; set; }
 
         [JsonPropertyName("URL")]
         public string Url { get; set; }

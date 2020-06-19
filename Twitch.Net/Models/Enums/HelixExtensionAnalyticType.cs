@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Twitch.Net.Models.Enums
 {
     [JsonConverter(typeof(JsonStringEnumMemberConverter))]
-    public enum HelixExtensionAnalyticType
+    public enum HelixAnalyticType
     {
         [EnumMember(Value = "overview_v1")]
         OverviewV1,
