@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Serialization;
-using Twitch.Net.Models;
 
-namespace Twitch.Net.Response
+namespace Twitch.Net.Models.Responses
 {
     /// <summary>
     /// Helix response with pagination

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace Twitch.Net.Response
+namespace Twitch.Net.Models.Responses
 {
     internal class TokenResponse
     {

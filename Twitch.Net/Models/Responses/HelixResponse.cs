@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Twitch.Net.Response
+namespace Twitch.Net.Models.Responses
 {
     /// <summary>
     /// Helix response
