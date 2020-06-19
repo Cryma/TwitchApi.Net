@@ -1,16 +1,22 @@
-﻿using Twitch.Net.Interfaces;
-using Twitch.Net.Strategies;
+﻿using Twitch.Net.Elements;
+using Twitch.Net.Interfaces;
 using Twitch.Net.Utility;
 
 namespace Twitch.Net
 {
-    public partial class TwitchApi
+    public class TwitchApi
     {
+
+        public IClipActions Clips { get; }
+        public IGameActions Games { get; }
+        public IStreamActions Streams { get; }
+        public IUserActions Users { get; }
+        public IVideoActions Videos { get; }
 
         private readonly string _clientId;
 
-        private IAccessTokenStrategy _accessTokenStrategy;
-        private IRateLimitStrategy _rateLimitStrategy;
+        private readonly IAccessTokenStrategy _accessTokenStrategy;
+        private readonly IRateLimitStrategy _rateLimitStrategy;
 
         internal TwitchApi(string clientId, IAccessTokenStrategy accessTokenStrategy, IRateLimitStrategy rateLimitStrategy)
         {
@@ -18,6 +24,12 @@ namespace Twitch.Net
 
             _accessTokenStrategy = accessTokenStrategy;
             _rateLimitStrategy = rateLimitStrategy;
+
+            Clips = new ClipActions(GetHttpClient);
+            Games = new GameActions(GetHttpClient);
+            Streams = new StreamActions(GetHttpClient);
+            Users = new UserActions(GetHttpClient);
+            Videos = new VideoActions(GetHttpClient);
         }
 
         private TwitchHttpClient GetHttpClient()

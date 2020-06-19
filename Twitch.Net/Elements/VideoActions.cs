@@ -1,25 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Twitch.Net.Interfaces;
 using Twitch.Net.Models;
-using Twitch.Net.Response;
+using Twitch.Net.Models.Responses;
+using Twitch.Net.Utility;
 
-namespace Twitch.Net
+namespace Twitch.Net.Elements
 {
-    public partial class TwitchApi
+    public class VideoActions : IVideoActions
     {
 
         public const string _getVideosEndpoint = "https://api.twitch.tv/helix/videos";
 
-        /// <summary>
-        /// Get videos for video ids
-        /// </summary>
-        /// <param name="videoIds">Array of video ids. Limit: 100</param>
-        /// <returns><see cref="HelixResponse{HelixVideo}"/> with videos</returns>
+        private readonly Func<TwitchHttpClient> _httpClientFactory;
+
+        internal VideoActions(Func<TwitchHttpClient> httpClientFactory)
+        {
+            _httpClientFactory = httpClientFactory;
+        }
+
         public async Task<HelixResponse<HelixVideo>> GetVideos(string[] videoIds)
         {
-            using var httpClient = GetHttpClient();
+            using var httpClient = _httpClientFactory();
 
             var parameters = new List<KeyValuePair<string, string>>();
             parameters.AddRange(videoIds.Select(videoId => new KeyValuePair<string, string>("id", videoId)));
@@ -29,22 +34,10 @@ namespace Twitch.Net
             return await JsonSerializer.DeserializeAsync<HelixResponse<HelixVideo>>(responseStream);
         }
 
-        /// <summary>
-        /// Get videos for specific game with optional filters
-        /// </summary>
-        /// <param name="gameId">Game id</param>
-        /// <param name="first">Amount of videos. Limit: 100</param>
-        /// <param name="after">Cursor for pagination</param>
-        /// <param name="before">Cursor for pagination</param>
-        /// <param name="language">Video language</param>
-        /// <param name="period">Video period. Either "all" (default), "day", "week", "month"</param>
-        /// <param name="sort">Video sort order. Either "time" (default), "trending", "views"</param>
-        /// <param name="type">Video type. Either "all" (default), "upload", "archive", "highlight"</param>
-        /// <returns><see cref="HelixPaginatedResponse{HelixVideo}"/> with games</returns>
         public async Task<HelixPaginatedResponse<HelixVideo>> GetVideosFromGame(string gameId, int first = 20, string after = null, string before = null,
             string language = null, string period = null, string sort = null, string type = null)
         {
-            using var httpClient = GetHttpClient();
+            using var httpClient = _httpClientFactory();
 
             var parameters = new List<KeyValuePair<string, string>>
             {
@@ -87,22 +80,10 @@ namespace Twitch.Net
             return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixVideo>>(responseStream);
         }
 
-        /// <summary>
-        /// Get videos from specific user with optional filters
-        /// </summary>
-        /// <param name="userId">User id</param>
-        /// <param name="first">Amount of videos. Limit: 100</param>
-        /// <param name="after">Cursor for pagination</param>
-        /// <param name="before">Cursor for pagination</param>
-        /// <param name="language">Video language</param>
-        /// <param name="period">Video period. Either "all" (default), "day", "week", "month"</param>
-        /// <param name="sort">Video sort order. Either "time" (default), "trending", "views"</param>
-        /// <param name="type">Video type. Either "all" (default), "upload", "archive", "highlight"</param>
-        /// <returns><see cref="HelixPaginatedResponse{HelixVideo}"/> with games</returns>
         public async Task<HelixPaginatedResponse<HelixVideo>> GetVideosFromUser(string userId, int first = 20, string after = null, string before = null,
             string language = null, string period = null, string sort = null, string type = null)
         {
-            using var httpClient = GetHttpClient();
+            using var httpClient = _httpClientFactory();
 
             var parameters = new List<KeyValuePair<string, string>>
             {
