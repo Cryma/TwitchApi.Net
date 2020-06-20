@@ -11,6 +11,7 @@ namespace Twitch.Net
         public IAnalyticActions Analytics { get; }
         public IBitActions Bits { get; }
         public IClipActions Clips { get; }
+        public IEntitlementActions Entitlements { get; }
         public IGameActions Games { get; }
         public IStreamActions Streams { get; }
         public IUserActions Users { get; }
@@ -32,6 +33,7 @@ namespace Twitch.Net
             Analytics = new AnalyticActions(GetHttpClient);
             Bits = new BitActions(GetHttpClient);
             Clips = new ClipActions(GetHttpClient);
+            Entitlements = new EntitlementActions(GetHttpClient);
             Games = new GameActions(GetHttpClient);
             Streams = new StreamActions(GetHttpClient);
             Users = new UserActions(GetHttpClient);
