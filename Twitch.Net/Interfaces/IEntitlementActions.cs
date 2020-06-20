@@ -10,5 +10,7 @@ namespace Twitch.Net.Interfaces
 
         Task<HelixResponse<HelixEntitlementGrant>> CreateEntitlementGrantsUploadUrl(string manifestId, HelixEntitlementGrantType type);
 
+        Task<HelixResponse<HelixEntitlementCode>> GetCodeStatus(string[] codes, string userId);
+
     }
 }

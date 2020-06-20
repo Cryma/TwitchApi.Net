@@ -17,6 +17,7 @@ namespace Twitch.Net.Elements
         private readonly Func<TwitchHttpClient> _httpClientFactory;
 
         private const string _createEntitlementGrantUploadUrlEndpoint = "https://api.twitch.tv/helix/entitlements/upload";
+        private const string _entitlementCodeEndpoint = "https://api.twitch.tv/helix/entitlements/codes";
 
         internal EntitlementActions(Func<TwitchHttpClient> httpClientFactory)
         {
@@ -42,6 +43,22 @@ namespace Twitch.Net.Elements
             }
 
             return responseModel;
+        }
+
+        public async Task<HelixResponse<HelixEntitlementCode>> GetCodeStatus(string[] codes, string userId)
+        {
+            using var httpClient = _httpClientFactory();
+
+            var parameters = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("user_id", userId)
+            };
+
+            parameters.AddRange(codes.Select(code => new KeyValuePair<string, string>("code", code)));
+
+            var responseStream = await httpClient.GetAsync(_entitlementCodeEndpoint, parameters);
+
+            return await JsonSerializer.DeserializeAsync<HelixResponse<HelixEntitlementCode>>(responseStream);
         }
 
         private string GetEntitlementGrantType(HelixEntitlementGrantType type)
