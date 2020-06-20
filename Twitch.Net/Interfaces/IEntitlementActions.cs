@@ -12,5 +12,7 @@ namespace Twitch.Net.Interfaces
 
         Task<HelixResponse<HelixEntitlementCode>> GetCodeStatus(string[] codes, string userId);
 
+        Task<HelixResponse<HelixEntitlementCode>> RedeemCode(string[] codes, string userId);
+
     }
 }

@@ -61,6 +61,22 @@ namespace Twitch.Net.Elements
             return await JsonSerializer.DeserializeAsync<HelixResponse<HelixEntitlementCode>>(responseStream);
         }
 
+        public async Task<HelixResponse<HelixEntitlementCode>> RedeemCode(string[] codes, string userId)
+        {
+            using var httpClient = _httpClientFactory();
+
+            var parameters = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("user_id", userId)
+            };
+
+            parameters.AddRange(codes.Select(code => new KeyValuePair<string, string>("code", code)));
+
+            var responseStream = await httpClient.PostAsync(_entitlementCodeEndpoint, parameters);
+
+            return await JsonSerializer.DeserializeAsync<HelixResponse<HelixEntitlementCode>>(responseStream);
+        }
+
         private string GetEntitlementGrantType(HelixEntitlementGrantType type)
         {
             switch (type)
