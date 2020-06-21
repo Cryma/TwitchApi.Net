@@ -13,6 +13,7 @@ namespace Twitch.Net
         public IClipActions Clips { get; }
         public IEntitlementActions Entitlements { get; }
         public IGameActions Games { get; }
+        public IModerationActions Moderation { get; }
         public IStreamActions Streams { get; }
         public IUserActions Users { get; }
         public IVideoActions Videos { get; }
@@ -35,6 +36,7 @@ namespace Twitch.Net
             Clips = new ClipActions(GetHttpClient);
             Entitlements = new EntitlementActions(GetHttpClient);
             Games = new GameActions(GetHttpClient);
+            Moderation = new ModerationActions(GetHttpClient);
             Streams = new StreamActions(GetHttpClient);
             Users = new UserActions(GetHttpClient);
             Videos = new VideoActions(GetHttpClient);
