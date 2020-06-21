@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Xml;
 
 namespace Twitch.Net.Models
 {
@@ -13,7 +15,20 @@ namespace Twitch.Net.Models
         public string UserName { get; set; }
 
         [JsonPropertyName("expires_at")]
-        public DateTime ExpiresAt { get; set; }
+        public string ExpiresAtRaw { get; set; }
+
+        public DateTime? ExpiresAt
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(ExpiresAtRaw))
+                {
+                    return null;
+                }
+
+                return XmlConvert.ToDateTime(ExpiresAtRaw, XmlDateTimeSerializationMode.Utc);
+            }
+        }
 
     }
 }
