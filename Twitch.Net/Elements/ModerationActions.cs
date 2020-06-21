@@ -16,6 +16,7 @@ namespace Twitch.Net.Elements
         private readonly Func<TwitchHttpClient> _httpClientFactory;
 
         private const string _getBannedUsersEndpoint = "https://api.twitch.tv/helix/moderation/banned";
+        private const string _getBannedEventsEndpoint = "https://api.twitch.tv/helix/moderation/banned/events";
 
         internal ModerationActions(Func<TwitchHttpClient> httpClientFactory)
         {
@@ -27,6 +28,26 @@ namespace Twitch.Net.Elements
         {
             using var httpClient = _httpClientFactory();
 
+            var parameters = GetBannedParameters(broadcasterId, userIds, after, before);
+
+            var responseStream = await httpClient.GetAsync(_getBannedUsersEndpoint, parameters);
+
+            return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixBannedUser>>(responseStream);
+        }
+
+        public async Task<HelixPaginatedResponse<HelixBannedUserEvent>> GetBannedEvents(string broadcasterId, string[] userIds = null, string after = null, string before = null)
+        {
+            using var httpClient = _httpClientFactory();
+
+            var parameters = GetBannedParameters(broadcasterId, userIds, after, before);
+
+            var responseStream = await httpClient.GetAsync(_getBannedEventsEndpoint, parameters);
+
+            return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixBannedUserEvent>>(responseStream);
+        }
+
+        private List<KeyValuePair<string, string>> GetBannedParameters(string broadcasterId, string[] userIds, string after, string before)
+        {
             var parameters = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
@@ -34,7 +55,7 @@ namespace Twitch.Net.Elements
 
             if (userIds != null)
             {
-                parameters.AddRange(userIds.Select(userId=> new KeyValuePair<string, string>("user_id", userId)));
+                parameters.AddRange(userIds.Select(userId => new KeyValuePair<string, string>("user_id", userId)));
             }
 
             if (string.IsNullOrEmpty(after) == false)
@@ -47,9 +68,7 @@ namespace Twitch.Net.Elements
                 parameters.Add(new KeyValuePair<string, string>("before", before));
             }
 
-            var responseStream = await httpClient.GetAsync(_getBannedUsersEndpoint, parameters);
-
-            return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixBannedUser>>(responseStream);
+            return parameters;
         }
 
     }

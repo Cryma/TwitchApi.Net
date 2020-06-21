@@ -9,5 +9,7 @@ namespace Twitch.Net.Interfaces
 
         Task<HelixPaginatedResponse<HelixBannedUser>> GetBannedUsers(string broadcasterId, string[] userIds = null, string after = null, string before = null);
 
+        Task<HelixPaginatedResponse<HelixBannedUserEvent>> GetBannedEvents(string broadcasterId, string[] userIds = null, string after = null, string before = null);
+
     }
 }
