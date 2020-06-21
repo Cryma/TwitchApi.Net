@@ -30,7 +30,7 @@ namespace Twitch.Net.Utility
             _rateLimitStrategy = rateLimitStrategy;
         }
 
-        public async Task<Stream> GetAsync(string url, List<KeyValuePair<string, string>> getParameters)
+        public async Task<Stream> GetAsync(string url, IEnumerable<KeyValuePair<string, string>> getParameters)
         {
             var parameters = new StringBuilder();
             if (getParameters != null)

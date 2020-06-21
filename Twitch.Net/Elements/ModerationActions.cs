@@ -46,29 +46,27 @@ namespace Twitch.Net.Elements
             return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixBannedUserEvent>>(responseStream);
         }
 
-        private List<KeyValuePair<string, string>> GetBannedParameters(string broadcasterId, string[] userIds, string after, string before)
+        private IEnumerable<KeyValuePair<string, string>> GetBannedParameters(string broadcasterId, string[] userIds, string after, string before)
         {
-            var parameters = new List<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
-            };
+            yield return new KeyValuePair<string, string>("broadcaster_id", broadcasterId);
 
             if (userIds != null)
             {
-                parameters.AddRange(userIds.Select(userId => new KeyValuePair<string, string>("user_id", userId)));
+                foreach (var userId in userIds)
+                {
+                    yield return new KeyValuePair<string, string>("user_id", userId);
+                }
             }
 
             if (string.IsNullOrEmpty(after) == false)
             {
-                parameters.Add(new KeyValuePair<string, string>("after", after));
+                yield return new KeyValuePair<string, string>("after", after);
             }
 
             if (string.IsNullOrEmpty(before) == false)
             {
-                parameters.Add(new KeyValuePair<string, string>("before", before));
+                yield return new KeyValuePair<string, string>("before", before);
             }
-
-            return parameters;
         }
 
     }
