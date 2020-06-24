@@ -14,6 +14,7 @@ namespace Twitch.Net
         public IEntitlementActions Entitlements { get; }
         public IGameActions Games { get; }
         public IModerationActions Moderation { get; }
+        public ISearchActions Search { get; }
         public IStreamActions Streams { get; }
         public IUserActions Users { get; }
         public IVideoActions Videos { get; }
@@ -37,6 +38,7 @@ namespace Twitch.Net
             Entitlements = new EntitlementActions(GetHttpClient);
             Games = new GameActions(GetHttpClient);
             Moderation = new ModerationActions(GetHttpClient);
+            Search = new SearchActions(GetHttpClient);
             Streams = new StreamActions(GetHttpClient);
             Users = new UserActions(GetHttpClient);
             Videos = new VideoActions(GetHttpClient);
