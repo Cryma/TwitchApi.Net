@@ -50,5 +50,7 @@ namespace Twitch.Net.Interfaces
         /// <returns><see cref="HelixPaginatedResponse{HelixStream}"/> with streams</returns>
         Task<HelixPaginatedResponse<HelixStream>> GetStreamsWithUserLogins(string[] userLogins, int first = 20, string[] languages = null, string after = null, string before = null);
 
+        Task<HelixResponse<HelixStreamKey>> GetStreamKey(string broadcasterId);
+
     }
 }

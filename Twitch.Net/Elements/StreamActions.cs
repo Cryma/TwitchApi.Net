@@ -13,9 +13,10 @@ namespace Twitch.Net.Elements
     public class StreamActions : IStreamActions
     {
 
-        private const string _getStreamsEndpoint = "https://api.twitch.tv/helix/streams";
-
         private readonly Func<TwitchHttpClient> _httpClientFactory;
+
+        private const string _getStreamsEndpoint = "https://api.twitch.tv/helix/streams";
+        private const string _getStreamKeyEndpoint = "https://api.twitch.tv/helix/streams/key";
 
         internal StreamActions(Func<TwitchHttpClient> httpClientFactory)
         {
@@ -142,6 +143,20 @@ namespace Twitch.Net.Elements
             var responseStream = await httpClient.GetAsync(_getStreamsEndpoint, parameters);
 
             return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixStream>>(responseStream);
+        }
+
+        public async Task<HelixResponse<HelixStreamKey>> GetStreamKey(string broadcasterId)
+        {
+            using var httpClient = _httpClientFactory();
+
+            var parameters = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
+            };
+
+            var responseStream = await httpClient.GetAsync(_getStreamKeyEndpoint, parameters);
+
+            return await JsonSerializer.DeserializeAsync<HelixResponse<HelixStreamKey>>(responseStream);
         }
 
     }
