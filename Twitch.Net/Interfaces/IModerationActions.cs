@@ -13,5 +13,7 @@ namespace Twitch.Net.Interfaces
 
         Task<HelixPaginatedResponse<HelixModerator>> GetModerators(string broadcasterId, string[] userIds = null, string after = null, string before = null);
 
+        Task<HelixPaginatedResponse<HelixModeratorEvent>> GetModeratorEvents(string broadcasterId, string[] userIds = null, string after = null, string before = null);
+
     }
 }
