@@ -9,5 +9,7 @@ namespace Twitch.Net.Interfaces
 
         Task<HelixPaginatedResponse<HelixCategory>> SearchCategories(string query, int first = 20, string after = null);
 
+        Task<HelixPaginatedResponse<HelixChannel>> SearchChannels(string query, int first = 20, string after = null, bool liveOnly = false);
+
     }
 }

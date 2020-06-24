@@ -15,6 +15,7 @@ namespace Twitch.Net.Elements
         private readonly Func<TwitchHttpClient> _httpClientFactory;
 
         private const string _searchCategoriesEndpoint = "https://api.twitch.tv/helix/search/categories";
+        private const string _searchChannelsEndpoint = "https://api.twitch.tv/helix/search/channels";
 
         internal SearchActions(Func<TwitchHttpClient> httpClientFactory)
         {
@@ -40,5 +41,27 @@ namespace Twitch.Net.Elements
 
             return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixCategory>>(responseStream);
         }
+
+        public async Task<HelixPaginatedResponse<HelixChannel>> SearchChannels(string query, int first = 20, string after = null, bool liveOnly = false)
+        {
+            using var httpClient = _httpClientFactory();
+
+            var parameters = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("query", HttpUtility.UrlEncode(query)),
+                new KeyValuePair<string, string>("first", first.ToString()),
+                new KeyValuePair<string, string>("live_only", liveOnly.ToString())
+            };
+
+            if (string.IsNullOrEmpty(after) == false)
+            {
+                parameters.Add(new KeyValuePair<string, string>("after", after));
+            }
+
+            var responseStream = await httpClient.GetAsync(_searchChannelsEndpoint, parameters);
+
+            return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixChannel>>(responseStream);
+        }
+
     }
 }
