@@ -17,6 +17,7 @@ namespace Twitch.Net.Elements
 
         private const string _getBannedUsersEndpoint = "https://api.twitch.tv/helix/moderation/banned";
         private const string _getBannedEventsEndpoint = "https://api.twitch.tv/helix/moderation/banned/events";
+        private const string _getModeratorsEndpoint = "https://api.twitch.tv/helix/moderation/moderators";
 
         internal ModerationActions(Func<TwitchHttpClient> httpClientFactory)
         {
@@ -28,7 +29,7 @@ namespace Twitch.Net.Elements
         {
             using var httpClient = _httpClientFactory();
 
-            var parameters = GetBannedParameters(broadcasterId, userIds, after, before);
+            var parameters = GetModerationParameters(broadcasterId, userIds, after, before);
 
             var responseStream = await httpClient.GetAsync(_getBannedUsersEndpoint, parameters);
 
@@ -39,14 +40,25 @@ namespace Twitch.Net.Elements
         {
             using var httpClient = _httpClientFactory();
 
-            var parameters = GetBannedParameters(broadcasterId, userIds, after, before);
+            var parameters = GetModerationParameters(broadcasterId, userIds, after, before);
 
             var responseStream = await httpClient.GetAsync(_getBannedEventsEndpoint, parameters);
 
             return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixBannedUserEvent>>(responseStream);
         }
 
-        private IEnumerable<KeyValuePair<string, string>> GetBannedParameters(string broadcasterId, string[] userIds, string after, string before)
+        public async Task<HelixPaginatedResponse<HelixModerator>> GetModerators(string broadcasterId, string[] userIds = null, string after = null, string before = null)
+        {
+            using var httpClient = _httpClientFactory();
+
+            var parameters = GetModerationParameters(broadcasterId, userIds, after, before);
+
+            var responseStream = await httpClient.GetAsync(_getModeratorsEndpoint, parameters);
+
+            return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixModerator>>(responseStream);
+        }
+
+        private IEnumerable<KeyValuePair<string, string>> GetModerationParameters(string broadcasterId, string[] userIds, string after, string before)
         {
             yield return new KeyValuePair<string, string>("broadcaster_id", broadcasterId);
 
