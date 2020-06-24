@@ -52,5 +52,7 @@ namespace Twitch.Net.Interfaces
 
         Task<HelixResponse<HelixStreamKey>> GetStreamKey(string broadcasterId);
 
+        Task<HelixResponse<HelixCreatedStreamMarker>> CreateStreamMarker(string userId, string description = null);
+
     }
 }
