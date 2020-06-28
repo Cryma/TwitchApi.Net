@@ -10,6 +10,7 @@ namespace Twitch.Net
         public IAdActions Ads { get; }
         public IAnalyticActions Analytics { get; }
         public IBitActions Bits { get; }
+        public IChannelActions Channels { get; }
         public IClipActions Clips { get; }
         public IEntitlementActions Entitlements { get; }
         public IGameActions Games { get; }
@@ -34,6 +35,7 @@ namespace Twitch.Net
             Ads = new AdActions(GetHttpClient);
             Analytics = new AnalyticActions(GetHttpClient);
             Bits = new BitActions(GetHttpClient);
+            Channels = new ChannelActions(GetHttpClient);
             Clips = new ClipActions(GetHttpClient);
             Entitlements = new EntitlementActions(GetHttpClient);
             Games = new GameActions(GetHttpClient);
