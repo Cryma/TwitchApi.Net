@@ -47,13 +47,26 @@ namespace Twitch.Net.Elements
             return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixGame>>(responseStream);
         }
 
-        public async Task<HelixResponse<HelixGame>> GetGames(string[] gameIds)
+        public async Task<HelixResponse<HelixGame>> GetGamesFromIds(string[] gameIds)
         {
             using var httpClient = _httpClientFactory();
 
             var parameters = new List<KeyValuePair<string, string>>();
 
             parameters.AddRange(gameIds.Select(gameId => new KeyValuePair<string, string>("id", gameId)));
+
+            var responseStream = await httpClient.GetAsync(_getGamesEndpoint, parameters);
+
+            return await JsonSerializer.DeserializeAsync<HelixResponse<HelixGame>>(responseStream);
+        }
+
+        public async Task<HelixResponse<HelixGame>> GetGamesFromNames(string[] gameNames)
+        {
+            using var httpClient = _httpClientFactory();
+
+            var parameters = new List<KeyValuePair<string, string>>();
+
+            parameters.AddRange(gameNames.Select(gameName => new KeyValuePair<string, string>("name", gameName)));
 
             var responseStream = await httpClient.GetAsync(_getGamesEndpoint, parameters);
 
