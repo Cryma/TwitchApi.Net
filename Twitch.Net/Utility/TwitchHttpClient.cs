@@ -80,6 +80,28 @@ namespace Twitch.Net.Utility
             return null;
         }
 
+        public async Task<Stream> PatchAsync(string url, List<KeyValuePair<string, string>> bodyParameters)
+        {
+            var body = new FormUrlEncodedContent(bodyParameters);
+
+            var request = new HttpRequestMessage(new HttpMethod("PATCH"), url);
+            request.Headers.Add("Authorization", $"Bearer {await _accessTokenStrategy.GetAccessToken()}");
+            request.Headers.Add("Client-ID", _clientId);
+            request.Content = body;
+
+            await _rateLimitStrategy.Wait();
+
+            var response = await _httpClient.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsStreamAsync();
+            }
+
+            await HandleExceptions(response);
+
+            return null;
+        }
+
         private async Task HandleExceptions(HttpResponseMessage response)
         {
             switch (response.StatusCode)

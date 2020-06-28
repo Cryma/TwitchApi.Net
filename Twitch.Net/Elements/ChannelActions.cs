@@ -35,5 +35,42 @@ namespace Twitch.Net.Elements
             return await JsonSerializer.DeserializeAsync<HelixResponse<HelixChannelInformation>>(responseStream);
         }
 
+        public async Task ModifyChannelInformation(string userId, string status = null, string gameId = null, string broadcasterLanguage = null,
+            string title = null, string description = null)
+        {
+            using var httpClient = _httpClientFactory();
+
+            var parameters = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("broadcaster_id", userId)
+            };
+
+            if (string.IsNullOrEmpty(status) == false)
+            {
+                parameters.Add(new KeyValuePair<string, string>("status", status));
+            }
+
+            if (string.IsNullOrEmpty(gameId) == false)
+            {
+                parameters.Add(new KeyValuePair<string, string>("game_id", gameId));
+            }
+
+            if (string.IsNullOrEmpty(broadcasterLanguage) == false)
+            {
+                parameters.Add(new KeyValuePair<string, string>("broadcaster_language", broadcasterLanguage));
+            }
+
+            if (string.IsNullOrEmpty(title) == false)
+            {
+                parameters.Add(new KeyValuePair<string, string>("title", title));
+            }
+
+            if (string.IsNullOrEmpty(description) == false)
+            {
+                parameters.Add(new KeyValuePair<string, string>("description", description));
+            }
+
+            await httpClient.PatchAsync(_channelInformationEndpoint, parameters);
+        }
     }
 }
