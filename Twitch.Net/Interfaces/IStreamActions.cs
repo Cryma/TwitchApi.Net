@@ -54,5 +54,9 @@ namespace Twitch.Net.Interfaces
 
         Task<HelixResponse<HelixCreatedStreamMarker>> CreateStreamMarker(string userId, string description = null);
 
+        Task<HelixPaginatedResponse<HelixStreamMarker>> GetStreamMarkersWithVideoId(string videoId, int first = 20, string after = null, string before = null);
+
+        Task<HelixPaginatedResponse<HelixStreamMarker>> GetStreamMarkersWithUserId(string userId, int first = 20, string after = null, string before = null);
+
     }
 }

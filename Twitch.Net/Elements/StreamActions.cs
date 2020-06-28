@@ -179,5 +179,55 @@ namespace Twitch.Net.Elements
             return await JsonSerializer.DeserializeAsync<HelixResponse<HelixCreatedStreamMarker>>(responseStream);
         }
 
+        public async Task<HelixPaginatedResponse<HelixStreamMarker>> GetStreamMarkersWithVideoId(string videoId, int first = 20, string after = null, string before = null)
+        {
+            using var httpClient = _httpClientFactory();
+
+            var parameters = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("video_id", videoId),
+                new KeyValuePair<string, string>("first", first.ToString())
+            };
+
+            if (string.IsNullOrEmpty(after) == false)
+            {
+                parameters.Add(new KeyValuePair<string, string>("after", after));
+            }
+
+            if (string.IsNullOrEmpty(before) == false)
+            {
+                parameters.Add(new KeyValuePair<string, string>("before", before));
+            }
+
+            var responseStream = await httpClient.GetAsync(_streamMarkersEndpoint, parameters);
+
+            return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixStreamMarker>>(responseStream);
+        }
+
+        public async Task<HelixPaginatedResponse<HelixStreamMarker>> GetStreamMarkersWithUserId(string userId, int first = 20, string after = null, string before = null)
+        {
+            using var httpClient = _httpClientFactory();
+
+            var parameters = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("user_id", userId),
+                new KeyValuePair<string, string>("first", first.ToString())
+            };
+
+            if (string.IsNullOrEmpty(after) == false)
+            {
+                parameters.Add(new KeyValuePair<string, string>("after", after));
+            }
+
+            if (string.IsNullOrEmpty(before) == false)
+            {
+                parameters.Add(new KeyValuePair<string, string>("before", before));
+            }
+
+            var responseStream = await httpClient.GetAsync(_streamMarkersEndpoint, parameters);
+
+            return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixStreamMarker>>(responseStream);
+        }
+
     }
 }
