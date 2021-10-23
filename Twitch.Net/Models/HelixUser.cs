@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 using Twitch.Net.Models.Enums;
 
 namespace Twitch.Net.Models
@@ -62,6 +63,12 @@ namespace Twitch.Net.Models
         /// </summary>
         [JsonPropertyName("view_count")]
         public int ViewCount { get; set; }
+
+        /// <summary>
+        /// Date when the user was created
+        /// </summary>
+        [JsonPropertyName("created_at")]
+        public DateTime CreatedAt { get; set; }
 
         /// <summary>
         /// User email
