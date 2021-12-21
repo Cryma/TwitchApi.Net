@@ -21,8 +21,15 @@ namespace Twitch.Net.Interfaces
         /// Get games from game ids
         /// </summary>
         /// <param name="gameIds">Array of game ids. Limit: 100</param>
-        /// <returns><see cref="HelixResponse{HelixGame}"/> with games</returns>
-        Task<HelixResponse<HelixGame>> GetGames(string[] gameIds);
+        /// <returns><see cref="HelixResponse{TResponseObject}"/> with games</returns>
+        Task<HelixResponse<HelixGame>> GetGamesFromIds(string[] gameIds);
+
+        /// <summary>
+        /// Get games from game names
+        /// </summary>
+        /// <param name="gameNames">Array of game names. Limit: 100</param>
+        /// <returns><see cref="HelixResponse{TResponseObject}"/> with games</returns>
+        Task<HelixResponse<HelixGame>> GetGamesFromNames(string[] gameNames);
 
     }
 }

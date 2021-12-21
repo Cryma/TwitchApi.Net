@@ -39,41 +39,8 @@ namespace Twitch.Net.Elements
         {
             using var httpClient = _httpClientFactory();
 
-            var parameters = new List<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>("game_id", gameId),
-                new KeyValuePair<string, string>("first", first.ToString())
-            };
-
-            if (string.IsNullOrEmpty(after) == false)
-            {
-                parameters.Add(new KeyValuePair<string, string>("after", after));
-            }
-
-            if (string.IsNullOrEmpty(before) == false)
-            {
-                parameters.Add(new KeyValuePair<string, string>("before", before));
-            }
-
-            if (string.IsNullOrEmpty(language) == false)
-            {
-                parameters.Add(new KeyValuePair<string, string>("language", language));
-            }
-
-            if (string.IsNullOrEmpty(period) == false)
-            {
-                parameters.Add(new KeyValuePair<string, string>("period", period));
-            }
-
-            if (string.IsNullOrEmpty(sort) == false)
-            {
-                parameters.Add(new KeyValuePair<string, string>("sort", sort));
-            }
-
-            if (string.IsNullOrEmpty(type) == false)
-            {
-                parameters.Add(new KeyValuePair<string, string>("type", type));
-            }
+            var parameters = GetVideoParameters(first, after, before, language, period, sort, type);
+            parameters.Add(new KeyValuePair<string, string>("game_id", gameId));
 
             var responseStream = await httpClient.GetAsync(_getVideosEndpoint, parameters);
 
@@ -85,9 +52,19 @@ namespace Twitch.Net.Elements
         {
             using var httpClient = _httpClientFactory();
 
+            var parameters = GetVideoParameters(first, after, before, language, period, sort, type);
+            parameters.Add(new KeyValuePair<string, string>("user_id", userId));
+
+            var responseStream = await httpClient.GetAsync(_getVideosEndpoint, parameters);
+
+            return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixVideo>>(responseStream);
+        }
+
+        private List<KeyValuePair<string, string>> GetVideoParameters(int first, string after, string before, string language, string period,
+            string sort, string type)
+        {
             var parameters = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("user_id", userId),
                 new KeyValuePair<string, string>("first", first.ToString())
             };
 
@@ -121,9 +98,7 @@ namespace Twitch.Net.Elements
                 parameters.Add(new KeyValuePair<string, string>("type", type));
             }
 
-            var responseStream = await httpClient.GetAsync(_getVideosEndpoint, parameters);
-
-            return await JsonSerializer.DeserializeAsync<HelixPaginatedResponse<HelixVideo>>(responseStream);
+            return parameters;
         }
 
     }
